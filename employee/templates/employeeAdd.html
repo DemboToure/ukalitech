@@ -1,0 +1,103 @@
+{% extends "employee.html" %}
+{% load static %}
+
+{% block title %}
+  Ajout d'un employe
+{% endblock title %}
+
+{% block main %}
+    <h3>Ajouter un employe</h3>
+    <form enctype="multipart/form-data" action="{% url 'employeeAdd' %}" method="post" class="row" >
+        {% csrf_token %}
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form.first_name.errors }}
+                <label for=" {{ form.first_name.id_for_label }} ">Prenom </label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                {{ form.last_name.errors }}
+                <label for=" {{ form.last_name.id_for_label }} ">Nom</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                {{ form.sexe.errors }}
+                <label for=" {{ form.sexe.id_for_label }} ">Sexe</label>
+                {{ form.sexe }}
+            </div>
+            <div class="form-group">
+                {{ form.email.errors }}
+                <label for=" {{ form.email.id_for_label }} ">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                {{ form.tel.errors }}
+                <label for=" {{ form.tel.id_for_label }} ">Telephone</label>
+                {{ form.tel }}
+            </div>
+            <div class="form-group">
+                {{ form.fix.errors }}
+                <label for=" {{ form.fix.id_for_label }} ">Fix</label>
+                {{ form.fix }}
+            </div>
+            <div class="form-group">
+                {{ form.adress.errors }}
+                <label for=" {{ form.adress.id_for_label }} ">Adresse</label>
+                {{ form.adress }}
+            </div>
+            <div class="form-group">
+                {{ form.profil_img.errors }}
+                <label for=" {{ form.profil_img.id_for_label }} ">Image</label>
+                {{ form.profil_img }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form.birth_date.errors }}
+                <label for=" {{ form.birth_date.id_for_label }} ">Date de naissance</label>
+                <input type="date" name="birth_date" required id="id_birth_date">
+            </div>
+            <div class="form-group">
+                {{ form.birth_to.errors }}
+                <label for=" {{ form.birth_to.id_for_label }} ">Lieu de naissance</label>
+                {{ form.birth_to }}
+            </div>
+            <div class="form-group">
+                {{ form.regis_number.errors }}
+                <label for=" {{ form.regis_number.id_for_label }} ">Numero de registre</label>
+                {{ form.regis_number }}
+            </div>
+            <div class="form-group">
+                {{ form.cni.errors }}
+                <label for=" {{ form.cni.id_for_label }} ">Numero carte d'identité</label>
+                {{ form.cni }}
+            </div>
+            <div class="form-group">
+                {{ form.marital_status.errors }}
+                <label for=" {{ form.marital_status.id_for_label }} ">Statut matrimonial</label>
+                {{ form.marital_status }}
+            </div>
+            <div class="form-group">
+                {{ form.number_children.errors }}
+                <label for=" {{ form.number_children.id_for_label }} ">Nombre d'enfant</label>
+                {{ form.number_children }}
+            </div>
+            <div class="form-group">
+                {{ form.social_security_number.errors }}
+                <label for=" {{ form.social_security_number.id_for_label }} ">Numero de securité social</label>
+                {{ form.social_security_number }}
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+{% endblock main %}
+
+{% block customJs %}
+  <script>
+    $('.form-group input').addClass('form-control') ;
+    $('.form-group select').addClass('form-control') ;
+
+  </script>
+{% endblock customJs %}

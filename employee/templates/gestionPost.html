@@ -1,0 +1,30 @@
+{% extends "employee.html" %}
+{% load static %}
+
+{% block title %}
+  Liste des posts
+{% endblock title %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr><th>Id</th><th>Label</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    {% for p in posts %}
+                        <tr> <th> {{ p.id }} </th> <td> {{ p.label }} </td><td> {{ p.desc }} </td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <form action="{% url 'gestionPost' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit" class="btn btn-primary customback"/>
+            </form>
+        </div>
+    </div>
+{% endblock main %}

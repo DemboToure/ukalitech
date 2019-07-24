@@ -8,8 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Shop Homepage - Start Bootstrap Template</title>
-
+    <title> {% block title %} Acceuil {% endblock title %} </title>
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
@@ -31,11 +30,17 @@
 	        <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
               <li class="nav-item active">
-                <a class="nav-link" href="dashboard">Dashboard
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard
                 </a>
               </li>
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'applications' %}">Apps</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'contactHome' %}">contact</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'employeeHome' %}">employe</a>
               </li>
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'logout_user' %}">Deconnecter</a>
@@ -51,8 +56,8 @@
   	</nav>
 
     <!-- Page Content -->
-    <div class="col-md-12" style="min-height: 700px; margin-top: 15px;">
-        <div class="row">
+    <div class="container-fluid" style="min-height: 700px; margin-top: 25px;">
+        <div class="">
             {% block mainpage %}
               
             {% endblock mainpage %}
@@ -72,6 +77,10 @@
     <!-- Bootstrap core JavaScript -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block customJs %}
+      
+    {% endblock customJs %}
 </body>
 
 </html>

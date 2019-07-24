@@ -1,0 +1,29 @@
+{% extends "employee.html" %}
+{% load static %}
+
+{% block title %}
+  Liste des employes
+{% endblock title %}
+
+{% block main %}
+    <div class="row employee_list">
+        {% for emp in employee %}
+            <div class="employee_box">
+                <div class="employeeImage">
+                    <img src=" {{ emp.profil_img.url }} " class='img-responsive' alt="profil">
+                </div>
+                <div class="employeeDesc">
+                    <table class="">
+                        <tbody>
+                            <tr><th>Nom</th><td> {{ emp.first_name }} {{ emp.last_name }} </td></tr>
+                            <tr><th>Email</th><td> {{ emp.email }} </td></tr>
+                            <tr><th>Adresse</th><td> {{ emp.adress }} </td></tr>
+                            <tr><th>Tel</th><td> {{ emp.tel }} </td></tr>
+                        </tbody>
+                    </table>
+                    <a class="float-left" href=" {% url 'employeeShow' emp.id %} ">ouvrir</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock main %}

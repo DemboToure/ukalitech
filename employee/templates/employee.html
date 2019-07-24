@@ -1,0 +1,15 @@
+{% extends "default.html" %}
+
+{% block mainpage %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'employeeHome' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'employeeAdd' %}">Creer</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'gestionPost' %}">Poste</a></li>
+            <li class="breadcrumb-item"><a href="">Importer</a></li>
+        </ol>
+    </nav>
+    {% block main %}
+
+    {% endblock main %}
+{% endblock mainpage %}
