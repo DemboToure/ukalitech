@@ -18,3 +18,13 @@ class  ContractForm(forms.ModelForm):
         model = Contract 
         fields= '__all__'
 
+class  DiplomaForm(forms.ModelForm):
+    class Meta:
+        model = Diploma 
+        fields= '__all__'
+
+class  ExperienceForm(forms.ModelForm):
+    class Meta:
+        model = ProfessionalExperience 
+        fields= '__all__'
+

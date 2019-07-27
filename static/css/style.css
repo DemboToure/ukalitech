@@ -4,26 +4,7 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
  */
 /* ------------------------- Separate line ------------------------- */
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto-Bold-webfont.woff');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto-Regular-webfont.woff');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto-Light-webfont.woff');
-    font-weight: 300;
-    font-style: normal;
-}
+@import url(fonts.css);
 
 
 body {
@@ -36,6 +17,9 @@ body {
 .customback{
     background-color: #d11c62 !important;
     border: none !important;
+}
+.customcolor{
+    color: #d11c62 ;
 }
 .vertical{  
     border-right:    1px solid black;

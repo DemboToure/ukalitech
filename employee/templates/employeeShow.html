@@ -25,7 +25,11 @@
                                     {{ employee.first_name }} {{ employee.last_name }}
                                 </h5>
                                 <h6>
-                                    responsable marcketing
+                                    {% if curent_contract != None %}
+                                        {{ curent_contract.post.label }}
+                                    {% else %}
+                                        pas de contrat en cours 
+                                    {% endif %}
                                 </h6>
                                 <p class="proile-rating">Evaluation : <span>8/10</span></p>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -36,7 +40,10 @@
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Contrats</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">document</a>
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#bulletin" role="tab" aria-controls="bulletin" aria-selected="false">Bulletin de Salaire</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#cv" role="tab" aria-controls="cv" aria-selected="false">Mini CV</a>
                             </li>
                         </ul>
                     </div>
@@ -48,20 +55,20 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-work">
-                        <p>WORK LINK</p>
-                        <a href="">Website Link</a><br/>
-                        <a href="">Bootsnipp Profile</a><br/>
-                        <a href="">Bootply Profile</a>
-                        <p>SKILLS</p>
-                        <a href="">Web Designer</a><br/>
-                        <a href="">Web Developer</a><br/>
-                        <a href="">WordPress</a><br/>
-                        <a href="">WooCommerce</a><br/>
-                        <a href="">PHP, .Net</a><br/>
+                        <p>Diplome</p>
+                        {% for dip in employee.diploma_set.all  %}
+                            <a href="#"> {{ dip.label }} </a><br/>
+                        {% endfor %}
+                        
+                        <p>Experiences</p>
+                        {% for exp in employee.professionalexperience_set.all %}
+                            <a href="#"> {{ exp.structure }} </a><br/>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
+                        
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -193,7 +200,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{% url 'contractAdd' employee.id %}" method="post">
+                                        <form enctype="multipart/form-data" action="{% url 'contractAdd' employee.id %}" method="post">
                                             {% csrf_token %}
                                             <table class="table">
                                                 {{ form.as_table }}
@@ -212,20 +219,104 @@
                                 <div class="table-contract">
                                     <table class="table">
                                         <tbody>
-                                            <tr><th>Debut</th><td> {{ ctr.begin }} </td></tr>
-                                            <tr><th>Fin</th><td> {{ ctr.end }} </td></tr>
+                                            <tr><th>Debut-Fin</th><td> {{ ctr.begin }} au {{ ctr.end }} </td></tr>
                                             <tr><th>Type</th><td> {{ ctr.contract_type }} </td></tr>
+                                            <tr><th>Salaire</th><td> {{ ctr.salary }} </td></tr>
                                             <tr>
                                                 <th>Poste</th>
-                                                <td> {{ ctr.post.label }} <a href=" {{ ctr.contract_doc.url }} " class="customback btn btn-primary float-right"><span class="badge badge-pill">ouvrir</span></a></td>
+                                                <td> {{ ctr.post.label }} <a target="_blank" href=" {{ ctr.contract_doc.url }} " class="customback btn btn-primary float-right"><span class="badge badge-pill">ouvrir</span></a></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             {% endfor %}
                         </div>
-                        <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+                        <div class="tab-pane fade" id="cv" role="tabpanel" aria-labelledby="cv-tab">
+                                    <h2>mini cv</h2>
+                                    <h4 class="customcolor">Experiences Profetionnelles</h4>
+                                    <table class="table">
+                                        <tr class="customcolor">
+                                            <th> Structure </th> 
+                                            <th> poste </th>
+                                            <th> Debut </th>
+                                            <th> Fin </th>
+                                            <th> Description </th>
+                                            <th>#</th>
+                                        </tr>
+                                        {% for exp in employee.professionalexperience_set.all  %}
+                                        <tr>
+                                            <th> {{ exp.structure }} </th> 
+                                            <td> {{ exp.post }} </td>
+                                            <td> {{ exp.begin }} </td>
+                                            <td> {{ exp.end }} </td>
+                                            <td> {{ exp.desc }} </td>
+                                            <td>#</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#expadd">
+                                    ajouter une experience
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="expadd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ajouter une experience</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{% url 'experienceAdd' employee.id %}" method="post">
+                                                    {% csrf_token %}
+                                                <table class="table">
+                                                    <tr><th>Structure </th> <td>{{ formExperience.structure }}</td></tr>
+                                                    <tr><th>Poste </th><td>{{ formExperience.post }}</td></tr>
+                                                    <tr><th>Debut </th><td> {{ formExperience.begin }} </td></tr>
+                                                    <tr><th>Fin</th><td> {{ formExperience.end }} </td></tr>
+                                                    <tr><th>Description</th><td> {{ formExperience.desc }} </td></tr>
+                                                    <input type="hidden" value="{{employee.id}}" id="id_employee" name="employee" required >
+                                                    <tr>
+                                                        <th>Valider</th>
+                                                        <td> <input type="submit" value="Submit" class="btn btn-primary customback"/></td>
+                                                    </tr> 
+                                                </table>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
+                                    <h4 class="customcolor">Diplomes</h4>
+                                    <table class="table">
+                                        <tr class="customcolor">
+                                            <th> Nom Diplome </th> 
+                                            <th> Ecole </th>
+                                            <th> Année </th>
+                                            <th>#</th>
+                                        </tr>
+                                        {% for dip in employee.diploma_set.all  %}
+                                        <tr>
+                                            <th> {{ dip.label }} </th> 
+                                            <td> {{ dip.school }} </td>
+                                            <td> {{ dip.year }} </td>
+                                            <td>#</td>
+                                        </tr>
+                                        {% endfor %}
+                                        <form action="{% url 'diplomaAdd' employee.id %}" method="post">
+                                            {% csrf_token %}
+                                            <tr>
+                                                <th> {{ formDiploma.label }} </th>
+                                                <th> {{ formDiploma.school }} </th>
+                                                <th> {{ formDiploma.year }} </th>
+                                                <th>
+                                                    <input type="hidden" value="{{employee.id}}" id="id_employee" name="employee" required >
+                                                    <input type="submit" value="Submit" class="btn btn-primary customback"/>
+                                                </th>
+                                            </tr>
+                                        </form>
+                                    </table>
                         </div>
                     </div>
                 </div>

@@ -8,4 +8,7 @@ urlpatterns = [
     path('editEmployee-<int:id>', views.employee_edit, name='employeeEdit'),    
     path('gestionPost', views.gestion_post, name='gestionPost'),    
     path('contractAdd-<int:id>', views.contract_add, name='contractAdd'),    
+    path('diplomaAdd-<int:id>', views.diploma_add, name='diplomaAdd'),    
+    path('experienceAdd-<int:id>', views.experience_add, name='experienceAdd'),    
+
 ]

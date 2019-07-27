@@ -5,3 +5,6 @@ from .models import *
 admin.site.register(Employee)
 admin.site.register(Contract)
 admin.site.register(Post)
+admin.site.register(Diploma)
+admin.site.register(ProfessionalExperience)
+

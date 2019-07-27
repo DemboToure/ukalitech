@@ -1,0 +1,101 @@
+
+
+
+/* MODULES */
+
+.module {
+    border: none;
+    margin-bottom: 30px;
+    background: #fff;
+}
+
+.module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.module blockquote {
+    margin-left: 12px;
+}
+
+.module ul, .module ol {
+    margin-left: 1.5em;
+}
+
+.module h3 {
+    margin-top: .6em;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    text-align: left;
+    background: #79aec8;
+    color: #fff;
+}
+
+.module caption,
+.inline-group h2 {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.module table {
+    border-collapse: collapse;
+}
+
+
+/* FORM DEFAULTS */
+
+input, textarea, select, .form-row p, form .button {
+    margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 13px;
+}
+.form-row div.help {
+    padding: 2px 3px;
+}
+
+.form-row.errors {
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    background: none;
+}
+
+.form-row.errors ul.errorlist li {
+    padding-left: 0;
+}
+
+.form-row .object-tools {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    float: none;
+    height: 2em;
+    padding-left: 3.5em;
+}
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+input[type=text], input[type=password], input[type=email], input[type=url],
+input[type=number], input[type=tel], textarea, select, .vTextField {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 6px;
+    margin-top: 0;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
+input[type=url]:focus, input[type=number]:focus, input[type=tel]:focus,
+textarea:focus, select:focus, .vTextField:focus {
+    border-color: #999;
+}

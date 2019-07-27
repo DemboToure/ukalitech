@@ -53,4 +53,29 @@ class Post(models.Model):
     def __str__(self):
         return self.label
 
+class Diploma(models.Model):
+    
+    label   = models.CharField(max_length=100)
+    school  = models.CharField(max_length=100)
+    year    = models.IntegerField()
+
+    employee   = models.ForeignKey('Employee', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.label
+
+
+
+class ProfessionalExperience(models.Model):
+
+    structure = models.CharField(max_length=100)
+    begin     = models.DateField()
+    end       = models.DateField()
+    post      = models.CharField(max_length=100)
+    desc      = models.CharField(max_length=100)
+
+    employee  = models.ForeignKey('Employee', on_delete=models.PROTECT)
+    
+    def __str__(self):
+        return self.structure
      
