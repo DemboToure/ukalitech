@@ -22,11 +22,9 @@ from website import urls as websiteUrls
 from gesstock import urls as gesstockUrls
 from contact import urls as contactUrls
 from employee import urls as employeeUrls
-import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('__debug__/', include(debug_toolbar.urls)),
     path('website/', include(websiteUrls) ),
     path('', websiteViews.home) ,
     path('contact/', include(contactUrls) ) ,
