@@ -40,17 +40,15 @@ def employee_show(request, id):
     formExperience = ExperienceForm()
 
     contracts = employee.contract_set.all()
-
-
-    #print(datetime.now().strftime("%Y-%m-%d") )
-    #print( date.today() )
-    #print( contracts[len(contracts)-1].end )
-    #if date.today > contracts[len(contracts)-1].end :
-    #    print("okkk") 
-
     curent_contract = None 
     if len( contracts ) > 0 :
         curent_contract = contracts[ len(contracts)-1 ]
+        dt = datetime.combine(curent_contract.end, datetime.min.time())
+        today = datetime.now()
+        print(dt)
+        print(today)
+        if dt < today :
+            curent_contract = None
     
     return render(request, 'employeeShow.html', locals())
 
