@@ -132,10 +132,10 @@ def import_emp(request):
                 emp.last_name    = tab[1]
                 emp.birth_date   = tab[2]
                 emp.birth_to     = tab[3]
-                emp.regis_number = tab[4]
-                emp.cni          = tab[5]
+                emp.regis_number = round(tab[4])
+                emp.cni          = round(tab[5])
                 emp.save(tab)
-                print(emp)
+                #print(emp)
                 
             filepath = os.path.join(settings.MEDIA_ROOT, myFile.name)
             os.remove(filepath)
