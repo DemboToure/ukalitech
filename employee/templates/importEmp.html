@@ -1,0 +1,20 @@
+{% extends "employee.html" %}
+{% load static %}
+
+{% block title %}
+  importer des employes
+{% endblock title %}
+
+{% block main %}
+<div style='width: 400px; margin: auto;margin-top: 100px;' >
+    <form enctype="multipart/form-data" action="{% url 'importEmp' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_username" class="">Selectionner le fichier excel</label>
+          <input type="file" class="form-control" name="excelfile" required id="id_username">
+        </div>
+        <input type="submit" class="btn customback" style="color: #fff;">
+        <a href="{% static 'example/employee.xlsx' %}" class="float-right btn btn-primary customback">voir exmeple</a>
+    </form>
+</div>
+{% endblock main %}

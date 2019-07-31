@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from .forms import *
 from .models import *
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, date
 from django.contrib.auth.decorators import login_required , user_passes_test
-
+from django.core.files.storage import FileSystemStorage
+import xlrd
+import os
+from ukalierp import settings
 
 # Create your views here.
 @login_required(login_url='/website/login_user')
@@ -37,13 +40,18 @@ def employee_show(request, id):
     formExperience = ExperienceForm()
 
     contracts = employee.contract_set.all()
+
+
+    #print(datetime.now().strftime("%Y-%m-%d") )
+    #print( date.today() )
+    #print( contracts[len(contracts)-1].end )
+    #if date.today > contracts[len(contracts)-1].end :
+    #    print("okkk") 
+
     curent_contract = None 
     if len( contracts ) > 0 :
-        curent_contract = contracts[ len(contracts)-1 ] 
-        #print(curent_contract.end)
-        #print( timezone.now )
-        #if curent_contract.end < datetime.now():
-        #    curent_contract = None
+        curent_contract = contracts[ len(contracts)-1 ]
+    
     return render(request, 'employeeShow.html', locals())
 
 
@@ -101,4 +109,38 @@ def experience_add(request, id):
             print(form.errors)
        
     return redirect('employeeShow', id)
+
+@login_required(login_url='/website/login_user')
+def import_emp(request):
+
+    if request.method == 'POST':
+        myFile = request.FILES['excelfile'] 
+        fs = FileSystemStorage()
+        filename = fs.save(myFile.name, myFile)
+        uploaded_file_url = fs.url(filename)
+        name, ext = myFile.name.split('.')
+        if ext == "xlsx":
+            print("format matched")
+            data = xlrd.open_workbook('uploads/'+myFile.name)
+            sh = data.sheet_by_name('Feuil1')
+            for row in range(1, sh.nrows):
+                tab = sh.row_values(row)
+                dat = xlrd.xldate.xldate_as_datetime(tab[2], data.datemode)
+                tab[2] = dat
+                emp = Employee()
+                emp.first_name   = tab[0]
+                emp.last_name    = tab[1]
+                emp.birth_date   = tab[2]
+                emp.birth_to     = tab[3]
+                emp.regis_number = tab[4]
+                emp.cni          = tab[5]
+                emp.save(tab)
+                print(emp)
+                
+            filepath = os.path.join(settings.MEDIA_ROOT, myFile.name)
+            os.remove(filepath)
+            return redirect('importEmp')
+        else:
+            print("format don't matched")
+    return render(request, 'importEmp.html')
     

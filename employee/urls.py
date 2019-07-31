@@ -10,5 +10,6 @@ urlpatterns = [
     path('contractAdd-<int:id>', views.contract_add, name='contractAdd'),    
     path('diplomaAdd-<int:id>', views.diploma_add, name='diplomaAdd'),    
     path('experienceAdd-<int:id>', views.experience_add, name='experienceAdd'),    
+    path('importEmp/', views.import_emp, name='importEmp'),
 
 ]

@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_cleanup',
+    'entrepriseinfo', 
     'website',
     'gesstock',
-    'contact' ,
-    'employee' ,
+    'contact',
+    'employee',
 ]
 
 MIDDLEWARE = [
