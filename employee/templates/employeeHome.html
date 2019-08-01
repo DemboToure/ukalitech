@@ -27,3 +27,9 @@
         {% endfor %}
     </div>
 {% endblock main %}
+
+{% block customJs %}
+    <script>
+        $(".sub_menu .homelink").addClass('active')
+    </script>
+{% endblock customJs %}

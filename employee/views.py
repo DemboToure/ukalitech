@@ -34,7 +34,11 @@ def employee_add(request):
 
 @login_required(login_url='/website/login_user')
 def employee_show(request, id):
-    employee = Employee.objects.get(id=id)
+    try:
+        employee = Employee.objects.get(id=id)
+    except:
+        return redirect("employeeHome")
+
     form = ContractForm()
     formDiploma = DiplomaForm()
     formExperience = ExperienceForm()
@@ -107,6 +111,7 @@ def experience_add(request, id):
             print(form.errors)
        
     return redirect('employeeShow', id)
+
 
 @login_required(login_url='/website/login_user')
 def import_emp(request):

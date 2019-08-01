@@ -63,6 +63,15 @@
 
     <!-- Page Content -->
     <div class="container-fluid" style="min-height: 700px; margin-top: 25px;">
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                  {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
         <div class="">
             {% block mainpage %}
               

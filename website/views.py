@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required , user_passes_test
 from .forms import loginform
@@ -21,20 +22,22 @@ def home(request):
 @user_passes_test(is_not_conected, login_url='/website/dashboard')
 def login_user(request):
     form = loginform(request.POST or None ) 
-    if form.is_valid():
+    if  request.method == 'POST' and  form.is_valid():
         username = request.POST.get('username') 
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password )
         if user is not None:
             login(request, user)
-            print("succesfuly authenticated")
+            messages.success(request, "heureux de vous revoir "+user.username+" !" )
             return redirect('dashboard')
         else:
-            print('authentication fail')
-
+            messages.warning(request, "Probleme d'authetification username ou mot de passe incorect !" )  
+            return redirect('login_user')
+            
     return render(request, 'login.html')
 
 def logout_user(request):
+    messages.success(request, "Au revoir et a tres bientot !" )
     logout(request)
     return redirect('login_user')
 
