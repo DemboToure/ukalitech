@@ -1,0 +1,39 @@
+{% extends "accounting.html" %}
+{% load static %}
+
+{% block title %}
+  Comptabilité | compte
+{% endblock title %}
+
+{% block main %}
+    <h3>Gestion des comptes</h3>
+    <div class="row">
+      <div class="col-md-7">
+        <table class="table table-striped">
+            <tr><th>Label</th><th>Numero compte</th><th>creer le</th></tr>
+            {% for act in accounts %}
+            <tr>
+                <td> {{ act.label }} </td>
+                <td> {{ act.account_number }} </td>
+                <td> {{ act.created_at }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+      </div>
+      <div class="col-md-5">
+          <form action="{% url 'accountingAccount' %}" method="post">
+            <table class="table">
+              {% csrf_token %}
+              {{ accountForm.as_table }}
+            </table>
+            <input type="submit" value="Submit" class="btn btn-primary customback"/>
+          </form>
+      </div>
+    </div>
+{% endblock main %}
+
+{% block customJs %}
+  <script>
+    $(".sub_menu .accountLink").addClass('active')
+  </script>
+{% endblock customJs %}

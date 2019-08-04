@@ -1,0 +1,17 @@
+{% extends "accounting.html" %}
+{% load static %}
+
+{% block title %}
+  Comptabilité | Grand livre
+{% endblock title %}
+
+{% block main %}
+    <h3>Grand livre comptable</h3>
+  
+{% endblock main %}
+
+{% block customJs %}
+  <script>
+    $(".sub_menu .bookLink").addClass('active')
+  </script>
+{% endblock customJs %}

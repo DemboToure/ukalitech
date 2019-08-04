@@ -22,6 +22,7 @@ from website import urls as websiteUrls
 from gesstock import urls as gesstockUrls
 from contact import urls as contactUrls
 from employee import urls as employeeUrls
+from accounting import urls as accountingUrls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +31,7 @@ urlpatterns = [
     path('contact/', include(contactUrls) ) ,
     path('gesstock/', include(gesstockUrls) ) ,
     path('employee/', include(employeeUrls) ) ,
+    path('accounting/', include(accountingUrls) ) ,
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

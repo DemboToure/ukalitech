@@ -1,0 +1,107 @@
+{% extends "accounting.html" %}
+{% load static %}
+
+{% block title %}
+  Comptabilité | journal
+{% endblock title %}
+
+{% block main %}
+    <h3 style="text-align: center;">Journal comptable</h3>
+    <div class="row">
+        <div class="col-md-10 offset-md-1 ">
+            <div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary customback" data-toggle="modal" data-target="#exampleModal">
+                    Ajouter une operation
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ajout peration</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form enctype="multipart/form-data" action="{% url 'accountingJournal' %}" method="post">
+                              {% csrf_token %}
+                              <table class="table">
+                                  {{ operationForm.as_table }}
+                              </table>
+                              <input type="submit" value="Submit" class="btn btn-primary customback"/>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <select name="year" id="filter">
+                        <option value="">----</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Document</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Fait le</th>
+                        <th>Compte</th>
+                    </tr>
+                </thead>
+                {% for op in operations %}
+                  <tr>
+                      <td> {{ op.label }} </td>
+                      <td> <a target="_blank" href="{{ op.document.url }}">document</a></td>
+                      {% if op.type_operation == 'DEBIT' %}
+                        <td> {{ op.solde }} </td>
+                        <td>_</td>
+                      {% else %}
+                        <td>_</td>
+                        <td> {{ op.solde }} fr</td>
+                      {% endif %}
+                      <td> {{ op.created_at }} </td>
+                      <td> {{ op.account.account_number }} </td>
+                  </tr>
+                {% endfor %}
+                <tr>
+                    <th>TOTAL</th>
+                    <th></th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+
+{% endblock main %}
+
+{% block customJs %}
+  <script>
+    $(".sub_menu .journalLink").addClass('active')
+
+    $("#filter").change(function() {
+        var year = $(this).val() 
+        window.location.href = "?year="+year ;
+    })
+    
+  </script>
+{% endblock customJs %}
