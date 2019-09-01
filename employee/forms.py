@@ -28,3 +28,7 @@ class  ExperienceForm(forms.ModelForm):
         model = ProfessionalExperience 
         fields= '__all__'
 
+class  SalaryDesignationForm(forms.ModelForm):
+    class Meta:
+        model = SalaryDesignation 
+        fields= '__all__'

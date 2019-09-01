@@ -6,26 +6,90 @@
 {% endblock title %}
 
 {% block main %}
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table">
-                <thead>
-                    <tr><th>Id</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                    {% for p in posts %}
-                        <tr> <th> {{ p.id }} </th> <td> {{ p.label }} </td><td> {{ p.desc }} </td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="container">
+        <!-- Espace gestion des postes -->
+        <h4 class="text-center">Liste des postes disponibles dans l'entreprise</h4>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table">
+                    <thead>
+                        <tr><th>Id</th><th>Label</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for p in posts %}
+                            <tr> <th> {{ p.id }} </th> <td> {{ p.label }} </td><td> {{ p.desc }} </td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <form action="{% url 'gestionPost' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Valider" class="btn btn-primary customback"/>
+                </form>
+            </div>
         </div>
-        <div class="col-md-6">
-            <form action="{% url 'gestionPost' %}" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit" class="btn btn-primary customback"/>
-            </form>
+        <hr>
+        <h4 class="text-center">Parametre pour bulletin de salaire</h4>
+        <div>
+            <div class="alert alert-warning" role="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                Le code des variables de paie composant le total brut est entre 0000 et 0999
+                <hr>
+                Le code des variables de paie composant les cotisations et impot est entre 1000 et 1999
+                <hr>
+                Tout le reste est codé à partir de 2000 
+            </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <form action="{% url 'addSalaryDesignation' %}" method="post">
+                    {% csrf_token %}
+                    <table class="table">
+                        {{ salary.as_table }}                        
+                    </table>
+                    <input type="submit" value="Valider" class="btn btn-primary customback"/>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="text-center">Variable de paie</th>
+                            <th colspan="5" class="text-center">Part Salariale</th>
+                            <th colspan="2" class="text-center">Part Patronale</th>
+                        </tr>
+                        <tr>
+                            <th>Code</th>
+                            <th>Designation</th>
+                            <th>Nbr</th>
+                            <th>Base</th>
+                            <th>Taux</th>
+                            <th>Gain</th>
+                            <th>Retenue</th>
+                            <th>Taux</th>
+                            <th>Retenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sd in salary_designation %}
+                            <tr>
+                                <td>{{ sd.code }}</td> 
+                                <td>{{ sd.label }}</td>
+                                <td>{{ sd.nbr_hour }} </td>
+                                <td>{{ sd.base }}</td>
+                                <td>{{ sd.salary_rate }}</td>
+                                <td>{{ sd.salary_gain }}</td>
+                                <td>{{ sd.salary_deduction }}</td>
+                                <td>{{ sd.patronal_rate }}</td>
+                                <td>{{ sd.patronal_deduction }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div> 
+        </div>        
     </div>
 {% endblock main %}
 

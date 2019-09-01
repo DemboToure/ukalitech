@@ -12,7 +12,7 @@ from ukalierp import settings
 # Create your views here.
 @login_required(login_url='/website/login_user')
 def employee_home(request):
-    employee = Employee.objects.all() 
+    employee = Employee.objects.all()
 
     return render(request, 'employeeHome.html', locals())
 
@@ -73,13 +73,35 @@ def employee_edit(request, id):
 
 @login_required(login_url='/website/login_user')
 def gestion_post(request):
+
+    if request.method == 'POST' :
+        if 'bulletin' in request.POST:
+            desi = SalaryDesignation()
+            desi.label = request.POST['designation']
+            desi.code = request.POST['code']
+            desi.save() 
+            return redirect('gestionPost')
+
+
     form = PostForm(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect('gestionPost')
 
-    posts = Post.objects.all() 
+    posts = Post.objects.all()
+    salary_designation = SalaryDesignation.objects.all()
+    salary = SalaryDesignationForm()
     return render(request, 'gestionPost.html', locals())
+
+
+@login_required(login_url='/website/login_user')
+def add_salary_designation(request):
+    
+    salary = SalaryDesignationForm(request.POST or None)
+    if salary.is_valid():
+        salary.save()
+
+    return redirect('gestionPost')
 
 @login_required(login_url='/website/login_user')
 def contract_add(request, id):

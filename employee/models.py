@@ -78,4 +78,21 @@ class ProfessionalExperience(models.Model):
     
     def __str__(self):
         return self.structure
-     
+    
+
+class SalaryDesignation(models.Model):
+    
+    code                = models.IntegerField() 
+    label               = models.CharField(max_length=100)
+    nbr_hour            = models.IntegerField(default=0)
+    base                = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    salary_rate         = models.DecimalField(max_digits=5,  decimal_places=3, null=True, blank=True)
+    salary_gain         = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    salary_deduction    = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    patronal_rate       = models.DecimalField(max_digits=5,  decimal_places=3, null=True, blank=True)
+    patronal_deduction  = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    
+    
+    def __str__(self):
+        return self.label
+    

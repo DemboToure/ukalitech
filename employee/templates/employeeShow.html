@@ -194,7 +194,7 @@
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Ajouter un contrat
+                                Ajouter un contrat 
                             </button>
       
                             <!-- Modal -->
@@ -202,7 +202,7 @@
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Ajoute de contrat</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -212,13 +212,17 @@
                                             {% csrf_token %}
                                             <table class="table">
                                                 {{ form.as_table }}
+                                                <tr>
+                                                    <th></th>
+                                                    <td><input type="hidden" value="{{ employee.id }}" name="employees" required id="id_employees"></td>
+                                                </tr>
                                             </table>
                                             <input type="submit" value="Submit" class="btn btn-primary customback"/>
                                         </form>
-                                    </div>
+                                    </div> <!--
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 </div>
                             </div>
@@ -240,7 +244,7 @@
                             {% endfor %}
                         </div>
                         <div class="tab-pane fade" id="bulletin" role="tabpanel" aria-labelledby="bulletin-tab">
-                            <h2>bulletin de salaire</h2>
+                            <a class="btn btn-primary" style="color: #fff;" href="#">Ajouter Bulletin</a>
                         </div>
                         <div class="tab-pane fade" id="cv" role="tabpanel" aria-labelledby="cv-tab">
                                     <h2>mini cv</h2>
@@ -341,5 +345,7 @@
         console.log("okk") ;
         $('#id_begin').attr('type', 'date')
         $('#id_end').attr('type', 'date')
+        $('#id_employees').attr('disabled', 'desabled')
+        $('#id_employees').parent().parent().remove()
     </script>
 {% endblock customJs %}

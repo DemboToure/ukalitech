@@ -56,8 +56,36 @@ body {
 }
 
 
-
-
+/**
+css for salary bulletin
+**/
+.img-logo{
+    width: 100px;
+}
+.entete{
+    display: flex;
+    justify-content: space-between;
+}
+.main{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.bulletin{
+    width: /*793px*/ 900px ;
+    border: 1px solid black;
+    margin: auto;
+}
+.titre{
+    text-align: center;
+    background-color: #d11c62;
+    font-weight: bold;
+}
+.txcenter{
+    text-align: center;
+}
+/**
+end for salary bulletin
+**/
 
 
 /**
