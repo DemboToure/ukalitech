@@ -17,7 +17,7 @@
     <!-- Custom styles for this template -->
     <link href=" {% static 'css/base.css' %} " rel="stylesheet">
     <link href=" {% static 'css/style.css' %} " rel="stylesheet">
-
+    {% block css %} {% endblock css %}
 
 </head>
 
@@ -94,8 +94,8 @@
         <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Bootstrap core JavaScript https://code.jquery.com/jquery-3.2.1.min.js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
     {% block customJs %}

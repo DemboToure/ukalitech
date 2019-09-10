@@ -8,6 +8,9 @@ from django.core.files.storage import FileSystemStorage
 import xlrd
 import os
 from ukalierp import settings
+from django.contrib import messages
+from datetime import datetime
+
 
 # Create your views here.
 @login_required(login_url='/website/login_user')
@@ -19,7 +22,6 @@ def employee_home(request):
 
 @login_required(login_url='/website/login_user')
 def employee_add(request):
-    
     if request.method == 'POST':
         form = EmployeeForm(request.POST, request.FILES)
         if form.is_valid():
@@ -44,6 +46,8 @@ def employee_show(request, id):
     formExperience = ExperienceForm()
 
     contracts = employee.contract_set.all()
+    salarys    = employee.salary_set.all()
+    print( type(salarys) )
     curent_contract = None 
     if len( contracts ) > 0 :
         curent_contract = contracts[ len(contracts)-1 ]
@@ -111,7 +115,69 @@ def contract_add(request, id):
             form.save()
        
     return redirect('employeeShow', id)
+
+
+@login_required(login_url='/website/login_user')
+def show_salary(request, idEmp, id):
+    try:
+        emp = Employee.objects.get(id=idEmp)
+    except:
+        return redirect("employeeHome")
+
+    salary = Salary.objects.get(id=id)
+
+
+    return render(request, 'salaryshow.html', locals())
+
+
+
+
+@login_required(login_url='/website/login_user')
+def del_salary(request, idEmp, id):
+    salary = Salary.objects.get(id=id)
     
+    for item in salary.salaryitems_set.all() :
+        item.delete()
+    salary.delete()
+    
+    return redirect('employeeShow', idEmp)
+
+@login_required(login_url='/website/login_user')
+def add_salary(request, id):
+    try:
+        emp = Employee.objects.get(id=id)
+    except:
+        return redirect("employeeHome")
+    if request.method == 'POST':
+        print(request.POST)
+        salary_desig = SalaryDesignation.objects.all()
+        salary = Salary()
+        salary.employee = emp
+        salary.salary_period = request.POST['month']
+        salary.save()
+        for sdg in salary_desig:
+            keys = sdg.__dict__.keys()
+            keys = [ k for k in keys ]
+            keys.remove('code')
+            keys.remove('label')
+            keys.remove('_state')
+            keys.remove('id')
+            item = SalaryItems()
+            item.code =  sdg.code
+            item.label=  sdg.label
+            item.salary = salary 
+            for k in keys:
+                item.setAttr(k, request.POST['-'.join([str(sdg.code), k])] )
+                #print("{} : {}".format('-'.join([str(sdg.code), k]), request.POST['-'.join([str(sdg.code), k])]) )
+
+            item.save()
+        messages.success(request, "Bulletin de salaire generer avec succes!" )
+        return redirect('employeeShow', id)
+    
+    now = datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
+    salary_desig = SalaryDesignation.objects.all()
+    return render(request, 'salaryAdd.html', locals())
+
 @login_required(login_url='/website/login_user')
 def diploma_add(request, id):
     if request.method == 'POST':

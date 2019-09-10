@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from decimal import Decimal 
 
 # Create your models here. 
 
@@ -96,3 +97,51 @@ class SalaryDesignation(models.Model):
     def __str__(self):
         return self.label
     
+class Salary(models.Model):
+
+    employee  = models.ForeignKey('Employee', on_delete=models.PROTECT)
+    salary_period = models.DateField()
+    created_at  = models.DateTimeField(auto_now=True)
+
+
+
+class SalaryItems(models.Model):
+    
+    code                = models.IntegerField() 
+    label               = models.CharField(max_length=100)
+    nbr_hour            = models.IntegerField(default=0)
+    base                = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    salary_rate         = models.DecimalField(max_digits=5,  decimal_places=3, null=True, blank=True)
+    salary_gain         = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    salary_deduction    = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    patronal_rate       = models.DecimalField(max_digits=5,  decimal_places=3, null=True, blank=True)
+    patronal_deduction  = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
+    
+    salary  = models.ForeignKey('Salary', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "{}-{}".format(self.label, self.salary.employee.first_name)
+
+    def setAttr(self, key, value):
+        value = value.replace(',', '.', 1) 
+        value = value.replace(' ', '' , 4) 
+        print(value)
+        if key == "code":
+            self.code = value
+        elif key == "label":
+            self.label = value
+        elif key == "nbr_hour":
+            self.nbr_hour = value
+        elif key == "base":
+            self.base = None if value=='' else Decimal(value)
+        elif key == "salary_rate":
+            self.salary_rate = None if value=='' else Decimal(value)
+        elif key == "salary_gain":
+            self.salary_gain = None if value=='' else Decimal(value)
+        elif key == "salary_deduction":
+            self.salary_deduction = None if value=='' else Decimal(value)
+        elif key == "patronal_rate":
+            self.patronal_rate = None if value=='' else Decimal(value) 
+        elif key == "patronal_deduction":
+            self.patronal_deduction = None if value=='' else Decimal(value)
+

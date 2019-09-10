@@ -244,7 +244,26 @@
                             {% endfor %}
                         </div>
                         <div class="tab-pane fade" id="bulletin" role="tabpanel" aria-labelledby="bulletin-tab">
-                            <a class="btn btn-primary" style="color: #fff;" href="#">Ajouter Bulletin</a>
+                            <a class="btn btn-primary" style="color: #fff;" href="{% url 'addSalary' employee.id %}">Ajouter Bulletin</a>
+
+                            {% for sal in employee.salary_set.all  %}
+                                <div class="table-contract">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr><th>Bulletin du mois </th><td> {{ sal.salary_period }} </td></tr>
+                                            <tr>
+                                                <th>Creer le </th>
+                                                <td> 
+                                                    {{ sal.created_at }}
+                                                    <a href="{% url 'showSalary' employee.id sal.id %}" style="margin-left: 15px;" class="customback btn btn-primary float-right"><span class="badge badge-pill">ouvrir</span></a>  
+                                                    <a href="{% url 'showSalary' employee.id sal.id %}" style="margin-left: 15px;" class="customback btn btn-primary float-right"><span class="badge badge-pill">imprimer</span></a>  
+                                                    <a href=" {% url 'delSalary' employee.id sal.id %} " class="confdel customback btn btn-primary float-right"><span class="badge badge-pill">Supprimer</span></a>  
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="tab-pane fade" id="cv" role="tabpanel" aria-labelledby="cv-tab">
                                     <h2>mini cv</h2>
@@ -347,5 +366,12 @@
         $('#id_end').attr('type', 'date')
         $('#id_employees').attr('disabled', 'desabled')
         $('#id_employees').parent().parent().remove()
+        $('.confdel').click(function(){
+            if (confirm("etes vous sur de vouloir Supprimer ?")) {
+                return true
+            }else{
+                return false
+            }
+        })
     </script>
 {% endblock customJs %}

@@ -1,0 +1,196 @@
+{% extends "employee.html" %}
+{% load static %}
+
+{% block title %}
+  Generation de bulletin de salaire
+{% endblock title %}
+
+{% block css %} 
+  <style type="text/css">
+    input{
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .information{
+      width: 300px;
+      /*min-height: 200px;*/
+      border: 1px solid #d11c62;
+      position: fixed;
+      right: 0px;
+      top: 75px;
+      background-color: #fff ;
+    }
+    .info-header{
+      height:30px;
+      color: #fff ;
+      text-align: center;
+      cursor: pointer;
+    }
+    .info-body{
+      overflow: hidden;
+    }
+  </style>
+{% endblock css %}
+
+{% block main %}
+  <div>
+      <div class="main container">
+        <div class="bulletin">
+          <div class="entete">
+            <div><img src="{% static 'images/logo.png' %}" class="img-logo"></div>
+            <div> {{ now }} </div>
+          </div>
+          <table class=" table">
+            <tr>
+              <th class="titre" colspan="6"> BULLETIN DE SALAIRE </tr>
+            <tr>
+              <th class="txcenter" colspan="3">EMPLOYEUR</th>
+              <th class="txcenter" colspan="3">SALARIE</th>     
+            </tr>
+            <tr>
+              <th>Nom</th>
+              <td colspan="2">Ukali Tech</td>
+              <th>Nom et prenom</th>
+              <td colspan="2"> {{ emp.last_name }}  {{ emp.first_name }} </td>
+            </tr>
+            <tr>
+              <th>Adresse</th>
+              <td colspan="2">Dakar Rue X Angle Y</td>
+              <th>Adresse</th>
+              <td colspan="2"> {{ emp.adress }} </td>
+            </tr>
+            <tr>
+              <th >Contact</th>
+              <td colspan="2">772341290</td>
+              <th>Numero SS</th>
+              <td colspan="2"> {{ emp.social_security_number }} </td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <td colspan="2">&nbsp;</td>
+              <th>Matricule</th>
+              <td colspan="2"> {{ emp.regis_number }} </td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <td colspan="2">&nbsp;</td>
+              <th>Situation</th>
+              <td colspan="2"> {{ emp.marital_status }} , {{ emp.number_children }} enfants</td>
+            </tr>
+            <tr>
+              <th class="tborder">&nbsp;</th>
+              <td class="tborder" colspan="2">&nbsp;</td>
+              <th class="tborder">Ancienneté</th>
+              <td class="tborder" colspan="2">---</td>
+            </tr>
+            <tr>
+              <th colspan="6">&nbsp;</th>
+            </tr>
+            
+          </table>
+          <form method="post">
+            {% csrf_token %}
+          <table class=" table table-bordered">
+            <tr>
+              <th colspan="2">Bulletin de paie pour le mois de</th>
+              <th colspan="2"><input type="date" name="month" class="form-control" required></th>
+              <th colspan="5"></th>
+            </tr>
+            <tr>
+              <th colspan="2" style="text-align: center;">Variae de paie</th>
+              <th colspan="5" style="text-align: center;">Part Salariale</th>
+              <th colspan="2" style="text-align: center;">Part Patronale</th>
+            </tr>
+            <tr>
+              <th>Code</th>
+              <th>Designation</th>
+              <th>Nbr(h)</th>
+              <th>Base</th>
+              <th>Taux</th>
+              <th>Gain</th>
+              <th>Retenue</th>
+              <th>Taux</th>
+              <th>Retenue</th>
+            </tr>
+            {% for sdg in salary_desig %}
+              <tr>
+                <th> {{ sdg.code }} </th>
+                <th style="width: 200px;"> {{ sdg.label }} </th>
+                <td style="width: 50px;"> 
+                  <input type="number" name="{{sdg.code}}-nbr_hour" value="{{sdg.nbr_hour}}"> 
+                </td>
+                <td> 
+                  <input type="text" name="{{sdg.code}}-base" value="{{sdg.base}}"> 
+                </td>
+                <td>
+                  <input type="text" name="{{sdg.code}}-salary_rate" value="{{sdg.salary_rate}}"> 
+                </td>
+                <td> 
+                  <input type="text" name="{{sdg.code}}-salary_gain" value="{{sdg.salary_gain}}"> 
+                </td>
+                <td> 
+                  <input type="text" name="{{sdg.code}}-salary_deduction" value="{{sdg.salary_deduction}}"> 
+                </td>
+                <td> 
+                  <input type="text" name="{{sdg.code}}-patronal_rate" value="{{sdg.patronal_rate}}"> 
+                </td>
+                <td> 
+                  <input type="text" name="{{sdg.code}}-patronal_deduction" value="{{sdg.patronal_deduction}}"> 
+                </td>
+              </tr>
+            {% endfor %}
+            <tr>
+              <th colspan="5">TOTAL</th>
+              <td>200000</td>
+              <td>230000</td>
+              <td>--</td>
+              <td>30000</td>
+            </tr>
+            <tr>
+              <th colspan="8">Net à payer</th>
+              <td>200000</td>
+            </tr>
+          </table>
+          <input type="submit" name="valider" class="btn btn-primary ">
+          </form>
+        </div>
+      </div>
+  </div>
+  <div class="information">
+    <div class="info-header customback">
+      <i class="fas fa-exclamation-circle"></i>  Informations Utils
+    </div>
+    <div class="info-body">
+        <div>Attention le virgule ' , ' et reprensenté pas le point ' . '</div><hr>
+    </div>
+  </div>
+{% endblock main %}
+
+
+
+{% block customJs %}
+<script type="text/javascript">
+  console.log('ok')
+  if ( $('input').val() == 'None' ) {
+      $('input').val() = ''
+  }
+  let inputs =  $('input') 
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].value == 'None') {
+      inputs[i].value = ''
+    }
+  }
+  
+  let closed = true 
+  $('.info-header').click(function() {
+    if (closed) {
+      $('.info-body').animate({height:"300px"})
+      closed = false
+    } else {
+      $('.info-body').animate({height:"0px"}) 
+      closed = true 
+    }
+  })
+</script>
+{% endblock customJs %}

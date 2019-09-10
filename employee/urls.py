@@ -11,5 +11,8 @@ urlpatterns = [
     path('diplomaAdd-<int:id>', views.diploma_add, name='diplomaAdd'),    
     path('experienceAdd-<int:id>', views.experience_add, name='experienceAdd'),    
     path('importEmp/', views.import_emp, name='importEmp'),
+    path('addSalary-<int:id>/', views.add_salary, name='addSalary'),
+    path('showSalary-<int:idEmp>-<int:id>/', views.show_salary, name='showSalary'),
+    path('delSalary-<int:idEmp>-<int:id>/', views.del_salary, name='delSalary'),
     path('addSalaryDesignation/', views.add_salary_designation, name='addSalaryDesignation'),
 ]
