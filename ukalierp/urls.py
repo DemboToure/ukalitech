@@ -24,6 +24,7 @@ from contact import urls as contactUrls
 from employee import urls as employeeUrls
 from accounting import urls as accountingUrls
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('website/', include(websiteUrls) ),

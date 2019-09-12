@@ -38,7 +38,7 @@
       <div class="main container">
         <div class="bulletin">
           <div class="entete">
-            <div><img src="{% static 'images/logo.png' %}" class="img-logo"></div>
+            <div><img src="{{ request.session.entrepriseinfo.img }}" class="img-logo"></div>
             <div> {{ now }} </div>
           </div>
           <table class=" table">
@@ -105,7 +105,7 @@
             <tr>
               <th>Code</th>
               <th>Designation</th>
-              <th>Nbr(h)</th>
+              <th style="width: 70px;">Nbr(h/m)</th>
               <th>Base</th>
               <th>Taux</th>
               <th>Gain</th>
@@ -117,26 +117,26 @@
               <tr>
                 <th> {{ sdg.code }} </th>
                 <th style="width: 200px;"> {{ sdg.label }} </th>
-                <td style="width: 50px;"> 
-                  <input type="number" name="{{sdg.code}}-nbr_hour" value="{{sdg.nbr_hour}}"> 
+                <td style="width: 70px;"> 
+                  <input type="number" name="{{sdg.code}}-nbr_hour" class="nbr_hour" value="{{sdg.nbr_hour}}"> 
                 </td>
                 <td> 
-                  <input type="text" name="{{sdg.code}}-base" value="{{sdg.base}}"> 
+                  <input type="text" name="{{sdg.code}}-base" class="base" value="{{sdg.base}}"> 
                 </td>
                 <td>
-                  <input type="text" name="{{sdg.code}}-salary_rate" value="{{sdg.salary_rate}}"> 
+                  <input type="text" name="{{sdg.code}}-salary_rate" class="salary_rate" value="{{sdg.salary_rate}}"> 
                 </td>
                 <td> 
-                  <input type="text" name="{{sdg.code}}-salary_gain" value="{{sdg.salary_gain}}"> 
+                  <input type="text" name="{{sdg.code}}-salary_gain" class="salary_gain" value="{{sdg.salary_gain}}"> 
                 </td>
                 <td> 
-                  <input type="text" name="{{sdg.code}}-salary_deduction" value="{{sdg.salary_deduction}}"> 
+                  <input type="text" name="{{sdg.code}}-salary_deduction" class="salary_deduction" value="{{sdg.salary_deduction}}"> 
                 </td>
                 <td> 
-                  <input type="text" name="{{sdg.code}}-patronal_rate" value="{{sdg.patronal_rate}}"> 
+                  <input type="text" name="{{sdg.code}}-patronal_rate" class="patronal_rate" value="{{sdg.patronal_rate}}"> 
                 </td>
                 <td> 
-                  <input type="text" name="{{sdg.code}}-patronal_deduction" value="{{sdg.patronal_deduction}}"> 
+                  <input type="text" name="{{sdg.code}}-patronal_deduction" class="patronal_deduction" value="{{sdg.patronal_deduction}}">
                 </td>
               </tr>
             {% endfor %}

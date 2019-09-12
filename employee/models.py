@@ -85,7 +85,7 @@ class SalaryDesignation(models.Model):
     
     code                = models.IntegerField() 
     label               = models.CharField(max_length=100)
-    nbr_hour            = models.IntegerField(default=0)
+    nbr_hour            = models.IntegerField(null=True, blank=True)
     base                = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
     salary_rate         = models.DecimalField(max_digits=5,  decimal_places=3, null=True, blank=True)
     salary_gain         = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
@@ -109,7 +109,7 @@ class SalaryItems(models.Model):
     
     code                = models.IntegerField() 
     label               = models.CharField(max_length=100)
-    nbr_hour            = models.IntegerField(default=0)
+    nbr_hour            = models.IntegerField(null=True, blank=True)
     base                = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)
     salary_rate         = models.DecimalField(max_digits=5,  decimal_places=3, null=True, blank=True)
     salary_gain         = models.DecimalField(max_digits=15, decimal_places=3, null=True, blank=True)

@@ -13,9 +13,8 @@ def is_not_conected(user):
 # end functions 
 
 
-
 def home(request):
-    
+
     return render(request, 'default.html')
 
 

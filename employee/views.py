@@ -12,6 +12,7 @@ from django.contrib import messages
 from datetime import datetime
 
 
+
 # Create your views here.
 @login_required(login_url='/website/login_user')
 def employee_home(request):
@@ -169,7 +170,7 @@ def add_salary(request, id):
             for k in keys:
                 item.setAttr(k, request.POST['-'.join([str(sdg.code), k])] )
                 #print("{} : {}".format('-'.join([str(sdg.code), k]), request.POST['-'.join([str(sdg.code), k])]) )
-
+            print(item)
             item.save()
         messages.success(request, "Bulletin de salaire generer avec succes!" )
         return redirect('employeeShow', id)
