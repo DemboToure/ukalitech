@@ -10,7 +10,7 @@ def EntrepriseMiddleware(get_response):
         #request.session['entrepriseinfo'] = vars(EntrepriseInfo.objects.all()[0])
         entreprise = EntrepriseInfo.objects.all()
         etr = None
-        if entreprise != None:
+        if len(entreprise) > 0 :
 	        etr = vars(EntrepriseInfo.objects.all()[0]) 
 	        etr['img'] = etr['img'].url
 	        etr.pop('_state')
