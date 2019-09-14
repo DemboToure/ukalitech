@@ -9,6 +9,7 @@
     <meta name="author" content="">
 
     <title>{% block title %} Acceuil {% endblock title %} </title>
+    <link rel="icon" type="image/png" href="{{ request.session.entrepriseinfo.img }}" />
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
@@ -26,8 +27,8 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark  fixed-top customback">
 	    <div class="container">
-	      <a class="navbar-brand" href="{% url 'home' %}"><img style="height: 40px;" src="{{ request.session.entrepriseinfo.img }}" class="img-responsive" ></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	      <a class="navbar-brand" href="{% url 'home' %}"><img style="height: 40px;" src="{{ request.session.entrepriseinfo.img }}" class="img-responsive" ></a>
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
 	      <div class="collapse navbar-collapse" id="navbarResponsive">

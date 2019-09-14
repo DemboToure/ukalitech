@@ -150,7 +150,7 @@ def add_salary(request, id):
     except:
         return redirect("employeeHome")
     if request.method == 'POST':
-        print(request.POST)
+        
         salary_desig = SalaryDesignation.objects.all()
         salary = Salary()
         salary.employee = emp

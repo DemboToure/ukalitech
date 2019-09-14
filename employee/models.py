@@ -125,13 +125,13 @@ class SalaryItems(models.Model):
     def setAttr(self, key, value):
         value = value.replace(',', '.', 1) 
         value = value.replace(' ', '' , 4) 
-        print(value)
+        print("{} = {}".format(key, None if value=='' else value))
         if key == "code":
             self.code = value
         elif key == "label":
             self.label = value
         elif key == "nbr_hour":
-            self.nbr_hour = value
+            self.nbr_hour = None if value=='' else value
         elif key == "base":
             self.base = None if value=='' else Decimal(value)
         elif key == "salary_rate":

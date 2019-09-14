@@ -50,19 +50,19 @@
             </tr>
             <tr>
               <th>Nom</th>
-              <td colspan="2">Ukali Tech</td>
+              <td colspan="2">{{ request.session.entrepriseinfo.name }}</td>
               <th>Nom et prenom</th>
               <td colspan="2"> {{ emp.last_name }}  {{ emp.first_name }} </td>
             </tr>
             <tr>
               <th>Adresse</th>
-              <td colspan="2">Dakar Rue X Angle Y</td>
+              <td colspan="2">{{ request.session.entrepriseinfo.adress }}</td>
               <th>Adresse</th>
               <td colspan="2"> {{ emp.adress }} </td>
             </tr>
             <tr>
               <th >Contact</th>
-              <td colspan="2">772341290</td>
+              <td colspan="2">{{ request.session.entrepriseinfo.contact }}</td>
               <th>Numero SS</th>
               <td colspan="2"> {{ emp.social_security_number }} </td>
             </tr>
