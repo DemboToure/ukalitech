@@ -47,8 +47,8 @@ def employee_show(request, id):
     formExperience = ExperienceForm()
 
     contracts = employee.contract_set.all()
-    salarys    = employee.salary_set.all()
-    print( type(salarys) )
+    salarys    = employee.salary_set.order_by('-id')
+    #print( type(salarys) )
     curent_contract = None 
     if len( contracts ) > 0 :
         curent_contract = contracts[ len(contracts)-1 ]
@@ -128,7 +128,7 @@ def show_salary(request, idEmp, id):
     salary = Salary.objects.get(id=id)
 
 
-    return render(request, 'salaryshow.html', locals())
+    return render(request, 'salaryShow.html', locals())
 
 
 
@@ -144,13 +144,29 @@ def del_salary(request, idEmp, id):
     return redirect('employeeShow', idEmp)
 
 @login_required(login_url='/website/login_user')
-def add_salary(request, id):
+def close_salary(request, idEmp, idSalary):
+    salary = Salary.objects.get(id=idSalary)
+    salary.closed = True 
+    salary.save()
+    return redirect('employeeShow', idEmp)
+
+@login_required(login_url='/website/login_user')
+def duplicate_salary(request, idEmp, idSalary):
+    salary = Salary.objects.get(id=idSalary)
+    salary.duplicate()
+    
+    messages.success(request, "Bulletin de salaire dupliqué avec succes!" )
+    return redirect('employeeShow', idEmp)
+
+    
+@login_required(login_url='/website/login_user')
+def add_salary(request, id, idSalary=None):
     try:
         emp = Employee.objects.get(id=id)
     except:
         return redirect("employeeHome")
-    if request.method == 'POST':
-        
+    
+    if idSalary==None and request.method == 'POST':
         salary_desig = SalaryDesignation.objects.all()
         salary = Salary()
         salary.employee = emp
@@ -172,9 +188,39 @@ def add_salary(request, id):
                 #print("{} : {}".format('-'.join([str(sdg.code), k]), request.POST['-'.join([str(sdg.code), k])]) )
             print(item)
             item.save()
+        #end for
         messages.success(request, "Bulletin de salaire generer avec succes!" )
         return redirect('employeeShow', id)
-    
+    elif idSalary != None and request.method == 'POST':
+        salary  = Salary.objects.get(id=idSalary) 
+        salary.salary_period = request.POST['month']
+        salary.save()
+
+        for sdg in salary.salaryitems_set.all():
+            keys = sdg.__dict__.keys()
+            #keys = list(keys)
+            keys = [ k for k in keys ]
+            keys.remove('code')
+            keys.remove('label')
+            keys.remove('_state')
+            keys.remove('id')
+            keys.remove('salary_id')
+            print(keys)
+            for k in keys:
+                sdg.setAttr(k, request.POST['-'.join([str(sdg.code), k])] )
+
+            sdg.save()
+
+        messages.success(request, "Bulletin de salaire modifié avec succes!" )
+        return redirect('employeeShow', id)
+    elif idSalary != None and request.method != 'POST':
+        salary = Salary.objects.get(id=idSalary)
+        now    = salary.created_at.strftime('%d/%m/%Y %H:%M:%S') 
+        salary_period = salary.salary_period.strftime("%Y-%m-%d") 
+        salary_desig = salary.salaryitems_set.all()
+        
+        return render(request, 'salaryAdd.html', locals())
+    #end_if
     now = datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
     salary_desig = SalaryDesignation.objects.all()
     return render(request, 'salaryAdd.html', locals())

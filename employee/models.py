@@ -102,7 +102,23 @@ class Salary(models.Model):
     employee  = models.ForeignKey('Employee', on_delete=models.PROTECT)
     salary_period = models.DateField()
     created_at  = models.DateTimeField(auto_now=True)
+    closed      = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.employee.first_name
+    
+    def duplicate(self):
+        s = Salary() 
+        s.employee = self.employee
+        s.salary_period = self.salary_period
+        s.closed = False
+        s.save()
+
+        for sdg in self.salaryitems_set.all():
+            si = sdg.duplicate(s)
+            si.save()
+
+        return s 
 
 
 class SalaryItems(models.Model):
@@ -121,6 +137,23 @@ class SalaryItems(models.Model):
 
     def __str__(self):
         return "{}-{}".format(self.label, self.salary.employee.first_name)
+
+    def duplicate(self, salary):
+        si = SalaryItems()
+        si.code = self.code
+        si.label = self.label
+        si.nbr_hour = self.nbr_hour 
+        si.base = self.base 
+        si.salary_rate = self.salary_rate 
+        si.salary_gain = self.salary_gain 
+        si.salary_deduction = self.salary_deduction
+        si.patronal_rate = self.patronal_rate 
+        si.patronal_deduction = self.patronal_deduction
+        si.salary = salary
+
+        si.save()
+        
+        return si 
 
     def setAttr(self, key, value):
         value = value.replace(',', '.', 1) 
