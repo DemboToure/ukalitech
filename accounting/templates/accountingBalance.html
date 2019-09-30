@@ -1,0 +1,81 @@
+{% extends "accounting.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+  Comptabilité | Balance 
+{% endblock title %}
+
+{% block css %}
+  <style>
+   table{
+       
+   }
+  </style>
+{% endblock css %}
+
+{% block main %}
+<h3 style="text-align: center;">Balance comptable</h3>
+<div class="container">
+    <div>
+        <select name="year" id="filter">
+            <option value="">----</option>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+        </select>
+    </div>
+    <hr>
+    <div class="row">
+      <table class="table table-bordered">
+        <tr>
+            <th></th>
+            <th></th>
+            <th colspan="2">Mouvement</th>
+            <th colspan="2">Solde</th>
+        </tr>
+        <tr>
+            <th>N de compte</th>
+            <th>Intitulé du Compte</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Debit</th>
+            <th>Credit</th>
+        </tr>
+        {% for account in accounts %}
+        <tr>
+            <td> {{account.account_number}} </td>
+            <td> {{account.label}} </td>
+            <td> {{account.get_total_debit|intcomma}} </td>
+            <td> {{account.get_total_credit|intcomma}} </td>
+            {% if account.is_debtor %}
+                <td>{{account.get_difference|intcomma}}</td><td></td>
+            {% else %}
+                <td></td><td>{{account.get_difference|intcomma}}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="2">A repporter</th>
+            <th>{{ total_debit|intcomma }}</th>
+            <th>{{ total_credit|intcomma }}</th>
+            <th></th>
+            <th></th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+  
+{% endblock main %}
+
+{% block customJs %}
+  <script>
+    $(".sub_menu .balanceLink").addClass('active')
+  </script>
+{% endblock customJs %}

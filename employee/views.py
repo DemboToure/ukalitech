@@ -47,7 +47,7 @@ def employee_show(request, id):
     formExperience = ExperienceForm()
 
     contracts = employee.contract_set.all()
-    salarys    = employee.salary_set.order_by('-id')
+    salarys    = employee.salary_set.order_by('-id') 
     #print( type(salarys) )
     curent_contract = None 
     if len( contracts ) > 0 :

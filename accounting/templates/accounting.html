@@ -16,14 +16,15 @@
               <a class="nav-link customcolor bookLink" href="{% url 'accountingBook' %}">Grand livre comptable</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor" href="{% url 'accountingBook' %}">Bilan</a>
+                <a class="nav-link customcolor balanceLink" href="{% url 'accountingBalance' %}">Balance</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor" href="{% url 'accountingBook' %}">Compte resultat</a>
+              <a class="nav-link customcolor bilanLink" href="{% url 'accountingBilan' %}">Bilan</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor" href="{% url 'accountingBook' %}">Balance</a>
+              <a class="nav-link customcolor resultLink" href="{% url 'accountingResult' %}">Compte resultat</a>
             </li>
+            
     </ul>
     {% block main %}
         

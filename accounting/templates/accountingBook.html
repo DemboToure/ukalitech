@@ -1,12 +1,48 @@
 {% extends "accounting.html" %}
 {% load static %}
+{% load humanize %}
+
 
 {% block title %}
   Comptabilité | Grand livre
 {% endblock title %}
 
+{% block css %}
+  <style>
+    .elt-account table{
+      text-align: center ;
+      background-color: #eceff1 ;
+    }
+  </style>
+{% endblock css %}
+
 {% block main %}
-    <h3>Grand livre comptable</h3>
+  <h3 style="text-align: center;">Grand livre comptable</h3>
+  <div class="container">
+    <div class="row">
+      {% for account in accounts %}
+        <div class="col-md-3 elt-account">
+          <table class="table table-bordered">
+            <tr><th colspan="2" style="color: #fff" class="customback">N de compte</th></tr>
+            <tr><th colspan="2">{{ account.account_number }}</th></tr>
+            <tr><th>Débit</th><th>Crédit</th></tr>
+            {% for debit,credit in account.get_debit_credit_both %}
+              <tr><td> {{debit|intcomma}} </td> <td>{{credit|intcomma}}</td></tr>
+            {% endfor %}
+            <tr><th colspan="2">TOTAL</th></tr>
+            <tr><th>{{ account.get_total_debit|intcomma }}</th><th> {{ account.get_total_credit|intcomma }} </th></tr>
+            {% if account.is_debtor %}
+              <tr class="alert alert-warning"><th class="">Solde debiteur</th><th>{{account.get_difference}}</th></tr>
+            {% else %}
+              <tr class="alert alert-info"><th class="">Solde Crediteur</th><th>{{account.get_difference}}</th></tr>
+            {% endif %}
+          </table>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+
   
 {% endblock main %}
 
