@@ -1,19 +1,21 @@
 {% extends "default.html" %}
 
+
+
 {% block mainpage %}
 
-    <ul class="nav nav-tabs sub_menu"  style="margin-bottom: 10px;">
+    <ul class="nav sub_menu"  style="">
             <li class="nav-item">
-              <a class="nav-link customcolor homelink" href="{% url 'employeeHome' %}">Home</a>
+              <a class="nav-link homelink" href="{% url 'employeeHome' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor addlink" href="{% url 'employeeAdd' %}">Creer</a>
+              <a class="nav-link addlink" href="{% url 'employeeAdd' %}">Creer</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor postelink" href="{% url 'gestionPost' %}">Config</a>
+              <a class="nav-link postelink" href="{% url 'gestionPost' %}">Config</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor importlink" href="{% url 'importEmp' %}">Importer</a>
+              <a class="nav-link importlink" href="{% url 'importEmp' %}">Importer</a>
             </li>
     </ul>
     {% block main %}
@@ -22,7 +24,11 @@
 {% endblock mainpage %}
 
 {% block customJs %}
-    <script>
-        
-    </script>
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.employee-link').addClass('active') 
+    
+  </script>
+  {% block js %}
+  {% endblock js %}
 {% endblock customJs %}

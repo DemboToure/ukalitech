@@ -8,6 +8,30 @@
 {% block main %}
     <div class="row employee_list">
         {% for emp in employee %}
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-body">
+                                <div class="employee_box">
+                                    <div class="employeeImage">
+                                        <img src=" {{ emp.profil_img.url }} " class='img-responsive' alt="profil">
+                                    </div>
+                                    <div class="employeeDesc">
+                                        <table class="">
+                                            <tbody>
+                                                <tr><th>Nom</th><td> {{ emp.first_name }} {{ emp.last_name }} </td></tr>
+                                                <tr><th>Email</th><td> {{ emp.email }} </td></tr>
+                                                <tr><th>Adresse</th><td> {{ emp.adress }} </td></tr>
+                                                <tr><th>Tel</th><td> {{ emp.tel }} </td></tr>
+                                            </tbody>
+                                        </table>
+                                        <a class="float-left" href=" {% url 'employeeShow' emp.id %} ">ouvrir</a>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
             <div class="employee_box">
                 <div class="employeeImage">
                     <img src=" {{ emp.profil_img.url }} " class='img-responsive' alt="profil">
@@ -23,13 +47,13 @@
                     </table>
                     <a class="float-left" href=" {% url 'employeeShow' emp.id %} ">ouvrir</a>
                 </div>
-            </div>
+            </div>  -->
         {% endfor %}
     </div>
 {% endblock main %}
 
-{% block customJs %}
+{% block js %}
     <script>
-        $(".sub_menu .homelink").addClass('active')
+        $(".sub_menu .homelink").addClass('btn-primary customback')
     </script>
-{% endblock customJs %}
+{% endblock js %}

@@ -1,6 +1,30 @@
 {% extends "default.html" %}
 
 {% block mainpage %}
+<div class="card" style='width: 400px; margin: auto;margin-top: 100px;'>
+  <div class="card-header card-header-primary">
+    <h4 class="card-title">Formulaire de connexion</h4>
+    <p class="card-category">Connecter vous a votre compte</p>
+  </div>
+  <div class="card-body">
+      <form action="{% url 'login_user' %}" method="POST" autocomplete="off">
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="id_username" class="bmd-label-floating">Nom d'utilisateur</label>
+            <input type="text" class="form-control" name="username" required id="id_username">
+          </div>
+          <div class="form-group">
+            <label for="id_password" class="bmd-label-floating">Mot de passe</label>
+            <input type="password" class="form-control" name="password" required id="id_password">
+          </div>
+          <button type="submit" class="btn btn-primary pull-right">Valider</button>
+      </form>
+  </div>
+</div>
+
+
+
+<!--
     <div style='width: 400px; margin: auto;margin-top: 100px;' >
         <form action="{% url 'login_user' %}" method="POST">
             {% csrf_token %}
@@ -12,8 +36,9 @@
               <label for="id_password" class="">Mot de passe</label>
               <input type="password" class="form-control" name="password" required id="id_password">
             </div>
-            <input type="submit" class="btn customback" style="color: #fff;">
+            <button type="submit" class="btn btn-primary pull-right">Valider</button>
         </form>
     </div>
+-->
 {% endblock mainpage %}
 

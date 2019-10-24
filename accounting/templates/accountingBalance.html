@@ -29,53 +29,61 @@
             <option value="2014">2014</option>
         </select>
     </div>
-    <hr>
-    <div class="row">
-      <table class="table table-bordered">
-        <tr>
-            <th></th>
-            <th></th>
-            <th colspan="2">Mouvement</th>
-            <th colspan="2">Solde</th>
-        </tr>
-        <tr>
-            <th>N de compte</th>
-            <th>Intitulé du Compte</th>
-            <th>Debit</th>
-            <th>Credit</th>
-            <th>Debit</th>
-            <th>Credit</th>
-        </tr>
-        {% for account in accounts %}
-        <tr>
-            <td> {{account.account_number}} </td>
-            <td> {{account.label}} </td>
-            <td> {{account.get_total_debit|intcomma}} </td>
-            <td> {{account.get_total_credit|intcomma}} </td>
-            {% if account.is_debtor %}
-                <td>{{account.get_difference|intcomma}}</td><td></td>
-            {% else %}
-                <td></td><td>{{account.get_difference|intcomma}}</td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-        <tr>
-            <th colspan="2">A repporter</th>
-            <th>{{ total_debit|intcomma }}</th>
-            <th>{{ total_credit|intcomma }}</th>
-            <th></th>
-            <th></th>
-        </tr>
-      </table>
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title">Balance comptable</h4>
+            <p class="card-category"></p>
+        </div>
+        <div class="card-body">
+              <div class="row">
+                <table class="table table-bordered">
+                  <tr>
+                      <th></th>
+                      <th></th>
+                      <th colspan="2">Mouvement</th>
+                      <th colspan="2">Solde</th>
+                  </tr>
+                  <tr>
+                      <th>N de compte</th>
+                      <th>Intitulé du Compte</th>
+                      <th>Debit</th>
+                      <th>Credit</th>
+                      <th>Debit</th>
+                      <th>Credit</th>
+                  </tr>
+                  {% for account in accounts %}
+                  <tr>
+                      <td> {{account.account_number}} </td>
+                      <td> {{account.label}} </td>
+                      <td> {{account.get_total_debit|intcomma}} </td>
+                      <td> {{account.get_total_credit|intcomma}} </td>
+                      {% if account.is_debtor %}
+                          <td>{{account.get_difference|intcomma}}</td><td></td>
+                      {% else %}
+                          <td></td><td>{{account.get_difference|intcomma}}</td>
+                      {% endif %}
+                  </tr>
+                  {% endfor %}
+                  <tr>
+                      <th colspan="2">A repporter</th>
+                      <th>{{ total_debit|intcomma }}</th>
+                      <th>{{ total_credit|intcomma }}</th>
+                      <th></th>
+                      <th></th>
+                  </tr>
+                </table>
+              </div>
+        </div>
     </div>
+    
   </div>
 
 
   
 {% endblock main %}
 
-{% block customJs %}
+{% block js %}
   <script>
-    $(".sub_menu .balanceLink").addClass('active')
+    $(".sub_menu .balanceLink").addClass('btn-primary customback')
   </script>
-{% endblock customJs %}
+{% endblock js %}

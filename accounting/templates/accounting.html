@@ -2,27 +2,27 @@
 
 {% block mainpage %}
 
-    <ul class="nav nav-tabs sub_menu"  style="margin-bottom: 10px;">
+    <ul class="nav sub_menu"  style="margin-bottom: 10px;">
             <li class="nav-item">
-              <a class="nav-link customcolor homeLink" href="{% url 'accountingHome' %}">Home</a>
+              <a class="nav-link  homeLink" href="{% url 'accountingHome' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link customcolor accountLink" href="{% url 'accountingAccount' %}">Compte</a>
+                <a class="nav-link  accountLink" href="{% url 'accountingAccount' %}">Compte</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link customcolor journalLink" href="{% url 'accountingJournal' %}">Journal Comptable</a>
+              <a class="nav-link  journalLink" href="{% url 'accountingJournal' %}">Journal Comptable</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor bookLink" href="{% url 'accountingBook' %}">Grand livre comptable</a>
+              <a class="nav-link  bookLink" href="{% url 'accountingBook' %}">Grand livre comptable</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link customcolor balanceLink" href="{% url 'accountingBalance' %}">Balance</a>
+                <a class="nav-link  balanceLink" href="{% url 'accountingBalance' %}">Balance</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor bilanLink" href="{% url 'accountingBilan' %}">Bilan</a>
+              <a class="nav-link  bilanLink" href="{% url 'accountingBilan' %}">Bilan</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link customcolor resultLink" href="{% url 'accountingResult' %}">Compte resultat</a>
+              <a class="nav-link resultLink" href="{% url 'accountingResult' %}">Compte resultat</a>
             </li>
             
     </ul>
@@ -32,7 +32,11 @@
 {% endblock mainpage %}
 
 {% block customJs %}
-    <script>
-        
-    </script>
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.accounting-link').addClass('active') 
+    
+  </script>
+  {% block js %}
+  {% endblock js %}
 {% endblock customJs %}

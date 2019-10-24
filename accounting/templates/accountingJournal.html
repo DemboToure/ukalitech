@@ -52,51 +52,60 @@
                     </select>
                 </div>
             </div>
-            <hr>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th>Document</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
-                        <th>Fait le</th>
-                        <th>Compte</th>
-                    </tr>
-                </thead>
-                {% for op in operations %}
-                  <tr>
-                      <td> {{ op.label }} </td>
-                      <td> <a target="_blank" href="{{ op.document.url }}">document</a></td>
-                      {% if op.type_operation == 'DEBIT' %}
-                        <td> {{ op.solde }} </td>
-                        <td>_</td>
-                      {% else %}
-                        <td>_</td>
-                        <td> {{ op.solde }} fr</td>
-                      {% endif %}
-                      <td> {{ op.created_at }} </td>
-                      <td> {{ op.account.account_number }} </td>
-                  </tr>
-                {% endfor %}
-                <tr>
-                    <th>TOTAL</th>
-                    <th></th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </table>
+            
+            <div class="card">
+              <div class="card-header card-header-primary">
+                  <h4 class="card-title">Journal Comptable</h4>
+                  <p class="card-category"></p>
+              </div>
+              <div class="card-body">
+                   <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Label</th>
+                                <th>Document</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Fait le</th>
+                                <th>Compte</th>
+                            </tr>
+                        </thead>
+                        {% for op in operations %}
+                        <tr>
+                            <td> {{ op.label }} </td>
+                            <td> <a target="_blank" href="{{ op.document.url }}">document</a></td>
+                            {% if op.type_operation == 'DEBIT' %}
+                                <td> {{ op.solde }} </td>
+                                <td>_</td>
+                            {% else %}
+                                <td>_</td>
+                                <td> {{ op.solde }} fr</td>
+                            {% endif %}
+                            <td> {{ op.created_at }} </td>
+                            <td> {{ op.account.account_number }} </td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th>TOTAL</th>
+                            <th></th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </table>
+              </div>
+            </div>
+           
             
         </div>
     </div>
 
 {% endblock main %}
 
-{% block customJs %}
+{% block js %}
   <script>
-    $(".sub_menu .journalLink").addClass('active')
+    $(".sub_menu .journalLink").addClass('btn-primary customback')
 
     $("#filter").change(function() {
         var year = $(this).val() 
@@ -104,4 +113,4 @@
     })
     
   </script>
-{% endblock customJs %}
+{% endblock js %}

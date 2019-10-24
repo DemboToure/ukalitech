@@ -6,297 +6,237 @@
 {% endblock title %}
 
 {% block main %}
-            
-    <div class="container emp-profile">
-        <div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img">
-                        <img src=" {{ employee.profil_img.url }} " alt=""/>
-                        <div class="file btn btn-lg btn-primary">
-                            Change Photo
-                            <input type="file" name="file"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="profile-head">
-                                <h5>
-                                    {{ employee.first_name }} {{ employee.last_name }}
-                                </h5>
-                                <h6>
-                                    {% if curent_contract != None %}
-                                        {{ curent_contract.post.label }}
-                                    {% else %}
-                                        pas de contrat en cours 
-                                    {% endif %}
-                                </h6>
-                                <p class="proile-rating">Evaluation : <span>8/10</span></p>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">A propos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Contrats</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#bulletin" role="tab" aria-controls="bulletin" aria-selected="false">Bulletin de Salaire</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#cv" role="tab" aria-controls="cv" aria-selected="false">Mini CV</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <a href=" {% url 'employeeEdit' employee.id %} " class="profile-edit-btn">Editer</a>
-                </div>
+    <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Editer Profile</h4>
+              <p class="card-category">Completer le profile de {{ employee.first_name }} {{ employee.last_name }}</p>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work">
-                        <p>Diplome</p>
-                        {% for dip in employee.diploma_set.all  %}
-                            <a href="#"> {{ dip.label }} </a><br/>
-                        {% endfor %}
-                        
-                        <p>Experiences</p>
-                        {% for exp in employee.professionalexperience_set.all %}
-                            <a href="#"> {{ exp.structure }} </a><br/>
-                        {% endfor %}
+            <div class="card-body">
+              <form>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Enregistre Le</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.created_at }}">
                     </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Prenom</label>
+                      <input type="text" class="form-control" value="{{ employee.first_name }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Nom</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.last_name }}">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Sexe</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.last_name }}">
+                    </div>
+                  </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Enregistré le </label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.created_at }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Prenom</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.first_name }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Nom</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.last_name }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Sexe</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.sexe }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>CNI</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.cni }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.email }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Tel</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.tel }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Fix</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.fix }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Adresse</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.adress }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Date de naissance</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.birth_date }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Lieu de naissance</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.birth_to }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Matricule</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.regis_number }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Statut matrimonial</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.marital_status }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Nombre d'enfant</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.number_children }} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Numero de securité Social</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p> {{ employee.social_security_number }} </p>
-                                        </div>
-                                    </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Ajouter un contrat 
-                            </button>
-      
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Ajoute de contrat</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form enctype="multipart/form-data" action="{% url 'contractAdd' employee.id %}" method="post">
-                                            {% csrf_token %}
-                                            <table class="table">
-                                                {{ form.as_table }}
-                                                <tr>
-                                                    <th></th>
-                                                    <td><input type="hidden" value="{{ employee.id }}" name="employees" required id="id_employees"></td>
-                                                </tr>
-                                            </table>
-                                            <input type="submit" value="Submit" class="btn btn-primary customback"/>
-                                        </form>
-                                    </div> <!--
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div> -->
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">CNI</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.cni }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Email</label>
+                      <input type="text" class="form-control" value="{{ employee.email }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Tel</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.tel }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Fix</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.fix }}">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Adresse</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.adress }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Date de naissance</label>
+                      <input type="text" class="form-control" value="{{ employee.birth_date }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Lieu de naissance</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.birth_to }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Matricule</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.regis_number }}">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Statut matrimonial</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.marital_status }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Nombre d'enfant</label>
+                      <input type="text" class="form-control" value="{{ employee.number_children }}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Numero de securité Social</label>
+                      <input type="text" class="form-control" disabled value="{{ employee.social_security_number }}">
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </form>
+              <a class="btn btn-primary pull-right" href=" {% url 'employeeEdit' employee.id %} ">Editer Profile</a>
+            </div>
+          </div>
+
+          <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Contrats</h4>
+                  <p class="card-category"></p>
+                </div>
+                <div class="card-body">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Ajouter un contrat 
+                    </button>
+  
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajoute de contrat</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                </div>
+                                <div class="modal-body">
+                                    <form enctype="multipart/form-data" action="{% url 'contractAdd' employee.id %}" method="post">
+                                        {% csrf_token %}
+                                        <table class="table">
+                                            {{ form.as_table }}
+                                            <tr>
+                                                <th></th>
+                                                <td><input type="hidden" value="{{ employee.id }}" name="employees" required id="id_employees"></td>
+                                            </tr>
+                                        </table>
+                                        <input type="submit" value="Submit" class="btn btn-primary customback"/>
+                                    </form>
+                                </div> <!--
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div> -->
                             </div>
-                            
-                            {% for ctr in employee.contract_set.all  %}
-                                <div class="table-contract">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr><th>Debut-Fin</th><td> {{ ctr.begin }} au {{ ctr.end }} </td></tr>
-                                            <tr><th>Type</th><td> {{ ctr.contract_type }} </td></tr>
-                                            <tr><th>Salaire</th><td> {{ ctr.salary }} </td></tr>
-                                            <tr>
-                                                <th>Poste</th>
-                                                <!-- <td> {{ ctr.post.label }} <a target="_blank" href=" {{ ctr.contract_doc.url }} " class="customback btn btn-primary float-right"><span class="badge badge-pill">ouvrir</span></a></td> -->
-                                                <td>
-                                                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
-                                                        <span class="badge badge-pill">ouvrir</span>
-                                                    </button>
-
-                                                    <!-- Modal -->
-                                                    <div id="myModal" class="modal fade" role="dialog">
-                                                        <div class="modal-dialog">
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <embed src="{{ ctr.contract_doc.url }}" type="application/pdf" width="100%" height="600px" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                        </div>
+                    </div>
+                    {% for ctr in employee.contract_set.all  %}
+                    <div class="table-contract">
+                        <table class="table">
+                            <tbody>
+                                <tr><th>Debut-Fin</th><td> {{ ctr.begin }} au {{ ctr.end }} </td></tr>
+                                <tr><th>Type</th><td> {{ ctr.contract_type }} </td></tr>
+                                <tr><th>Salaire</th><td> {{ ctr.salary }} </td></tr>
+                                <tr>
+                                    <th>Poste</th>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                            <span class="badge badge-pill">ouvrir</span>
+                                        </button>
+                                        <!-- Modal -->
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            {% endfor %}
+                                                    <div class="modal-body">
+                                                        <embed src="{{ ctr.contract_doc.url }}" type="application/pdf" width="100%" height="600px" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
+          </div>
+          <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Bulletin de Salaire</h4>
+                <p class="card-category"></p>
+              </div>
+              <div class="card-body">
+                  <a class="btn btn-primary" style="color: #fff;" href="{% url 'addSalary' employee.id  %}">Ajouter Bulletin</a>
 
-                        </div>
-                        <div class="tab-pane fade" id="bulletin" role="tabpanel" aria-labelledby="bulletin-tab">
-                            <a class="btn btn-primary" style="color: #fff;" href="{% url 'addSalary' employee.id  %}">Ajouter Bulletin</a>
-
-                            {% for sal in salarys %}
-                                <div class="table-contract">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr><th>Bulletin du mois </th><td> {{ sal.salary_period }} </td></tr>
-                                            <tr>
-                                                <th>Creer le </th>
-                                                <td> 
-                                                    {{ sal.created_at }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <a href="{% url 'addSalary' employee.id sal.id %}" style="margin-left: 15px;" class="customback btn btn-primary"><span class="badge badge-pill">Ouvrir</span></a>  
-                                                    <a href="#" style="margin-left: 15px;" class="customback btn btn-primary "><span class="badge badge-pill">Imprimer</span></a>  
-                                                    <a href="{% url 'duplicateSalary' employee.id sal.id %}" style="margin-left: 15px;" class="confdel customback btn btn-primary "><span class="badge badge-pill">Dupliquer</span></a> 
-                                                    {% if sal.closed == False %}
-                                                    <a href=" {% url 'delSalary' employee.id sal.id %} " style="margin-left: 15px;" class="confdel customback btn btn-primary "><span class="badge badge-pill">Supprimer</span></a>  
-                                                    <a href="{% url 'closeSalary' employee.id sal.id %}" style="margin-left: 15px;" class="confdel customback btn btn-primary "><span class="badge badge-pill">Payer</span></a>  
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="tab-pane fade" id="cv" role="tabpanel" aria-labelledby="cv-tab">
-                                    <h2>mini cv</h2>
-                                    <h4 class="customcolor">Experiences Profetionnelles</h4>
+                  {% for sal in salarys %}
+                      <div class="table-contract">
+                          <table class="table">
+                              <tbody>
+                                  <tr><th>Bulletin du mois </th><td> {{ sal.salary_period }} </td></tr>
+                                  <tr>
+                                      <th>Creer le </th>
+                                      <td> 
+                                          {{ sal.created_at }}
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td colspan="2">
+                                          <a href="{% url 'addSalary' employee.id sal.id %}" style="margin-left: 15px;" class="customback btn btn-primary"><span class="badge badge-pill">Ouvrir</span></a>  
+                                          <a href="#" style="margin-left: 15px;" class="customback btn btn-primary "><span class="badge badge-pill">Imprimer</span></a>  
+                                          <a href="{% url 'duplicateSalary' employee.id sal.id %}" style="margin-left: 15px;" class="confdel customback btn btn-primary "><span class="badge badge-pill">Dupliquer</span></a> 
+                                          {% if sal.closed == False %}
+                                          <a href=" {% url 'delSalary' employee.id sal.id %} " style="margin-left: 15px;" class="confdel customback btn btn-primary "><span class="badge badge-pill">Supprimer</span></a>  
+                                          <a href="{% url 'closeSalary' employee.id sal.id %}" style="margin-left: 15px;" class="confdel customback btn btn-primary "><span class="badge badge-pill">Payer</span></a>  
+                                          {% endif %}
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  {% endfor %}
+              </div>
+          </div>
+          <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Mini CV</h4>
+                <p class="card-category"></p>
+              </div>
+              <div class="card-body">
+                  <h4 class="customcolor">Experiences Profetionnelles</h4>
                                     <table class="table">
                                         <tr class="customcolor">
                                             <th> Structure </th> 
@@ -380,15 +320,43 @@
                                             </tr>
                                         </form>
                                     </table>
-                        </div>
-                    </div>
-                </div>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-profile">
+            <div class="card-avatar">
+              <a href="#pablo">
+                <img class="img" src="{{ employee.profil_img.url }}" />
+              </a>
             </div>
-        </div>           
-    </div>  
+            <div class="card-body">
+                <h6 class="card-category text-gray">
+                    {% if curent_contract != None %}
+                        {{ curent_contract.post.label }}
+                    {% else %}
+                        pas de contrat en cours 
+                    {% endif %}
+                </h6>
+                <h4 class="card-title">{{ employee.first_name }} {{ employee.last_name }}</h4>
+                <p class="card-description">
+                    <p>Diplome</p>
+                    {% for dip in employee.diploma_set.all  %}
+                      <a href="#"> {{ dip.label }} </a><br/>
+                    {% endfor %}
+                    <hr>
+                    <p>Experiences</p>
+                    {% for exp in employee.professionalexperience_set.all %}
+                      <a href="#"> {{ exp.structure }} </a><br/>
+                    {% endfor %}
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock main %}
 
-{% block customJs %}
+{% block js %}
     <script>
         console.log("okk") ;
         $('#id_begin').attr('type', 'date')
@@ -403,4 +371,4 @@
             }
         })
     </script>
-{% endblock customJs %}
+{% endblock js %}

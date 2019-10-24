@@ -8,14 +8,15 @@
 
 
 body {
-    padding-top: 56px;
-    /*font-family: 'Lato', sans-serif; */
+    /*padding-top: 56px;
+    font-family: 'Lato', sans-serif; 
     font-size: 16px;
     font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    */
 }
   
 .customback{
-    background-color: #d11c62 !important;
+    background-color: #9c27b0 !important;
     border: none !important;
 }
 .customcolor{
@@ -27,7 +28,7 @@ body {
     background-color: #fff ;
 }
 .main{
-      background-color: #f6f8fa ;
+    /*background-color: #f6f8fa ;*/
 }
 
 .employee_list{
@@ -35,19 +36,17 @@ body {
 }
 .employee_box{
     display: flex;
-    margin: 3px;
+    /*margin: 3px;
     background-color: #f9f9f9;
+    width: 330px ;*/
     font-size: 0.85em ;
     cursor: pointer ;
-    width: 330px ;
     overflow: hidden;
 }
 .employeeImage img{
     width: 100px;
 }
-.employeeDesc{
-    margin-left: 5px ;
-}
+
 
 .table-contract{
     border: 1px solid black ;

@@ -3,3 +3,12 @@
 {% block mainpage %}
   <h1>Liste des applications</h1>
 {% endblock mainpage %}
+
+
+{% block customJs %}
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.apps-link').addClass('active') 
+    
+  </script>
+{% endblock customJs %}

@@ -19,35 +19,44 @@
 {% block main %}
   <h3 style="text-align: center;">Grand livre comptable</h3>
   <div class="container">
-    <div class="row">
-      {% for account in accounts %}
-        <div class="col-md-3 elt-account">
-          <table class="table table-bordered">
-            <tr><th colspan="2" style="color: #fff" class="customback">N de compte</th></tr>
-            <tr><th colspan="2">{{ account.account_number }}</th></tr>
-            <tr><th>Débit</th><th>Crédit</th></tr>
-            {% for debit,credit in account.get_debit_credit_both %}
-              <tr><td> {{debit|intcomma}} </td> <td>{{credit|intcomma}}</td></tr>
-            {% endfor %}
-            <tr><th colspan="2">TOTAL</th></tr>
-            <tr><th>{{ account.get_total_debit|intcomma }}</th><th> {{ account.get_total_credit|intcomma }} </th></tr>
-            {% if account.is_debtor %}
-              <tr class="alert alert-warning"><th class="">Solde debiteur</th><th>{{account.get_difference}}</th></tr>
-            {% else %}
-              <tr class="alert alert-info"><th class="">Solde Crediteur</th><th>{{account.get_difference}}</th></tr>
-            {% endif %}
-          </table>
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Grand Livre compta</h4>
+                <p class="card-category"></p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                {% for account in accounts %}
+                  <div class="col-md-3 elt-account">
+                    <table class="table table-bordered">
+                      <tr><th colspan="2" style="color: #fff" class="customback">N de compte</th></tr>
+                      <tr><th colspan="2">{{ account.account_number }}</th></tr>
+                      <tr><th>Débit</th><th>Crédit</th></tr>
+                      {% for debit,credit in account.get_debit_credit_both %}
+                        <tr><td> {{debit|intcomma}} </td> <td>{{credit|intcomma}}</td></tr>
+                      {% endfor %}
+                      <tr><th colspan="2">TOTAL</th></tr>
+                      <tr><th>{{ account.get_total_debit|intcomma }}</th><th> {{ account.get_total_credit|intcomma }} </th></tr>
+                      {% if account.is_debtor %}
+                        <tr class="alert alert-warning"><th class="">Solde debiteur</th><th>{{account.get_difference}}</th></tr>
+                      {% else %}
+                        <tr class="alert alert-info"><th class="">Solde Crediteur</th><th>{{account.get_difference}}</th></tr>
+                      {% endif %}
+                    </table>
+                  </div>
+                {% endfor %}
+                </div>
+            </div>
         </div>
-      {% endfor %}
-    </div>
+      
   </div>
 
 
   
 {% endblock main %}
 
-{% block customJs %}
+{% block js %}
   <script>
-    $(".sub_menu .bookLink").addClass('active')
+    $(".sub_menu .bookLink").addClass('btn-primary customback')
   </script>
-{% endblock customJs %}
+{% endblock js %}

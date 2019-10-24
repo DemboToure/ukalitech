@@ -10,7 +10,7 @@
     <form enctype="multipart/form-data" action="{% url 'importEmp' %}" method="POST">
         {% csrf_token %}
         <div class="form-group">
-          <label for="id_username" class="">Selectionner le fichier excel</label>
+          <label for="id_username" style="cursor: pointer;" >Selectionner le fichier excel</label>
           <input type="file" class="form-control" name="excelfile" required id="id_username">
         </div>
         <input type="submit" class="btn customback" style="color: #fff;">
@@ -18,8 +18,8 @@
     </form>
 </div>
 {% endblock main %}
-{% block customJs %}
+{% block js %}
   <script>
-    $(".sub_menu .importlink").addClass('active')  
+    $(".sub_menu .importlink").addClass('btn-primary customback')  
   </script>
-{% endblock customJs %}
+{% endblock js %}

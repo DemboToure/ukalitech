@@ -4,3 +4,11 @@
 {% block mainpage %}
 <h3>contact</h3>
 {% endblock mainpage %}
+
+{% block customJs %}
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.contact-link').addClass('active') 
+    
+  </script>
+{% endblock customJs %}
