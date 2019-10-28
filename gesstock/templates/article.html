@@ -1,0 +1,105 @@
+{% extends "gesstock.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+  Stock | Article
+{% endblock title %}
+
+{% block css %}
+  <style>
+    form input{
+      width: 100%;
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">Liste des article</h4>
+          <p class="card-category">Liste des article enregistré au stock</p>
+        </div>
+        <div class="card-body">
+          <form action="" method="POST">
+          {% csrf_token %}
+          <table class="table">
+              <tr>
+                <th>Label</th>
+                <th>reference</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>Unite</th>
+                <th>Categorie</th>
+                <th>A</th>
+              </tr>
+            {% for article in articles  %}
+              <tr>
+                <td> {{article.label}} </td>
+                <td> {{article.ref}} </td>
+                <td> {{article.quantity}} </td>
+                <td> {{article.price|intcomma}} </td>
+                <td> {{article.unite}} </td>
+                <td> {{article.category.label}} </td>
+                <td><a href="{% url 'gesstockArticleShow' article.id %}"><i class="material-icons">info</i></a></td>
+              </tr>
+            {% endfor %}
+                <tr>
+                  <td class="ip"> {{articleForm.label}} </td>
+                  <td class="ip"> {{articleForm.ref}} </td>
+                  <td class="ip disable"> {{articleForm.quantity}} </td>
+                  <td class="ip"> {{articleForm.price}} </td>
+                  <td class="ip"> {{articleForm.unite}} </td>
+                  <td class="ip"> {{articleForm.category}} </td>
+                  <td > <input name="addArticle" type="submit" class="btn btn-primary"> </td>
+                </tr>
+          </table>
+        </form>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Liste des categories</h4>
+              <p class="card-category">Liste des categories enregistré au stock</p>
+            </div>
+            <div class="card-body">
+              <form method="POST">
+                {% csrf_token %}
+                <table class="table">
+                  <tr>
+                    <th>Label</th>
+                    <th>Ref</th>
+                    <th>A</th>
+                  </tr>
+                  {% for cate in categorys %}
+                  <tr>
+                    <th> {{cate.label}} </th>
+                    <th> {{cate.ref}} </th>
+                    <th> <a href="#"><i class="material-icons">info</i></a> </th>
+                  </tr>
+                  {% endfor %}
+                  <tr>
+                    <td class="ip"> {{articleForm.label}} </td>
+                    <td class="ip"> {{articleForm.ref}} </td>
+                    <td> <input name="addCategory" value="ok" type="submit" class="btn btn-primary"> </td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock main %}
+{% block js %}
+  <script>
+    $(".sub_menu .articleLink").addClass('btn-primary customback')  
+    $('.ip input').addClass('form-control')
+    $('.ip select').addClass('form-control')
+  </script>
+{% endblock js %}

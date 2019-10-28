@@ -1,0 +1,70 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block title %}
+  Stock | Livraison
+{% endblock title %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Liste des Livraison</h4>
+              <p class="card-category">Liste des livraisons a effectué</p>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <tr>
+                  <th>Client</th>
+                  <th>Date</th>
+                  <th>Livré</th>
+                  <th><i class="material-icons">info</i></th>
+                </tr>
+              {% for delivery in deliverys %}
+                <tr>
+                  <td> {{ delivery.customer.label }} </td>
+                  <td> {{ delivery.deliveryDate }} </td>
+                  <td><span style="color: {{ delivery.color }};"> {{ delivery.deliveredLab }} </span></td>
+                  <td><a href="{% url 'gesstockDeliveryShow' delivery.id %}"><i class="material-icons">info</i></a></td>
+                </tr>
+              {% endfor %}
+              </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Ajout d'une livraison</h4>
+            </div>
+            <div class="card-body">
+              <form method="POST">
+                  {% csrf_token %}
+                <table class="table">
+                  <tr>
+                    <th>Date</th>
+                    <td class="dateInput">{{ deliveryForm.deliveryDate }}</td>
+                  </tr>
+                  <tr>
+                    <th>Client</th>
+                    <th> {{ deliveryForm.customer }} </th>
+                  </tr>
+                  <tr>
+                    <th>reçu</th>
+                    <td> {{ deliveryForm.delivered }} </td>
+                  </tr>
+                </table>
+                <input type="submit" class="btn btn-primary">
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+{% block js %}
+  <script>
+    $(".sub_menu .deliveryLink").addClass('btn-primary customback')  
+    $('.dateInput input').attr('type', 'date')
+  </script>
+{% endblock js %}

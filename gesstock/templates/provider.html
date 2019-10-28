@@ -1,0 +1,80 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block css %} 
+
+{% endblock css %}
+
+{% block title %}
+  Stock | Fournisseur
+{% endblock title %}
+
+
+{% block main %}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProvider">
+            Ajouter
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addProvider" tabindex="-1" role="dialog" aria-labelledby="addProviderLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProviderLabel">Ajouter un fournisseur</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'gesstockProvider' %}" method="post">
+                        {% csrf_token %}
+                        <table class="table">
+                            {{ form.as_table }}
+                        </table>
+                        <input type="submit" value="Valider" class="btn btn-primary customback"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row employee_list">
+            
+            {% for provider in providers %}
+                <div class="col-md-4">
+                    <div class="card card-chart">
+                        <div class="card-body">
+                            <div class="employee_box">
+                                <div class="employeeImage">
+                                    <img src=" {{ provider.logo.url }} " class='img-responsive' alt="profil">
+                                </div>
+                                <div class="employeeDesc">
+                                    <table class="">
+                                        <tbody>
+                                            <tr><th>Label</th><td> {{ provider.label }} </td></tr>
+                                            <tr><th>Adresse</th><td> {{ provider.adress|truncatewords:"4" }} </td></tr>
+                                            <tr><th>Tel</th><td> {{ provider.tel }} </td></tr>
+                                            <tr><th>Fix</th><td> {{ provider.fix }} </td></tr>
+                                        </tbody>
+                                    </table>
+                                    <a class="float-left" href="{% url 'gesstockProviderShow' provider.id %}">ouvrir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+{% endblock main %}
+
+
+{% block js %}
+  <script>
+    $(".sub_menu .providerLink").addClass('btn-primary customback')  
+  </script>
+{% endblock js %}

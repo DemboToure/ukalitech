@@ -1,0 +1,70 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block title %}
+  Stock | Approvisionnement
+{% endblock title %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Liste des Approvisionnement</h4>
+                  <p class="card-category">Liste des Approvisionnement enregistré au stock</p>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <tr>
+                      <th>Fournisseur</th>
+                      <th>Date</th>
+                      <th>reçu</th>
+                      <th><i class="material-icons">info</i></th>
+                    </tr>
+                  {% for procurement in procurements %}
+                    <tr>
+                      <td> {{ procurement.provider.label }} </td>
+                      <td> {{ procurement.procurementDate }} </td>
+                      <td><span style="color: {{ procurement.color }};"> {{ procurement.receivedLab }} </span></td>
+                      <td><a href=" {% url 'gesstockProcurementShow' procurement.id %} "><i class="material-icons">info</i></a></td>
+                    </tr>
+                  {% endfor %}
+                  </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Ajout d'Approvisionnement</h4>
+                </div>
+                <div class="card-body">
+                  <form method="POST">
+                      {% csrf_token %}
+                    <table class="table">
+                      <tr>
+                        <th>Date</th>
+                        <td class="dateInput">{{ procurementForm.procurementDate }}</td>
+                      </tr>
+                      <tr>
+                        <th>Fournisseur</th>
+                        <th> {{ procurementForm.provider }} </th>
+                      </tr>
+                      <tr>
+                        <th>reçu</th>
+                        <td> {{ procurementForm.received }} </td>
+                      </tr>
+                    </table>
+                    <input type="submit" class="btn btn-primary">
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+{% block js %}
+  <script>
+    $(".sub_menu .procurementLink").addClass('btn-primary customback')
+    $('.dateInput input').attr('type', 'date')
+  </script>
+{% endblock js %}

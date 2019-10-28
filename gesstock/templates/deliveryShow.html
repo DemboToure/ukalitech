@@ -1,0 +1,89 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block css %} 
+
+{% endblock css %}
+
+{% block title %}
+  Stock | Article detail
+{% endblock title %}
+
+
+{% block main %}
+        
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Editer La livraison</h4>
+              <p class="card-category">Modifier la livraison courante</p>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group {% if delivery.delivered == True %} receivedInput {% endif %}">
+                          {{ deliveryForm.customer }}
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group dataInput {% if delivery.delivered == True %} receivedInput {% endif %}">
+                          <label class="bmd-label-floating">Date</label>
+                          {{ deliveryForm.deliveryDate }}
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group {% if delivery.delivered == True %} receivedInput {% endif %} ">
+                          {{ deliveryForm.delivered }}
+                        </div>
+                      </div>
+                    </div>
+                    {% if delivery.delivered != True %}
+                    <input type="submit" name="updateDelivery" class="btn btn-primary pull-right" value="Modifier">
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </form>
+                <form method="POST">
+                  {% csrf_token %}
+                  <table class="table">
+                    <tr><th>Article</th><th>Quantité</th><th><i class="material-icons">info</i></th></tr>
+                    {% for item in delivery.deliveryitem_set.all %}
+                      <tr>
+                        <td>{{ item.article.label }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>
+                          {% if delivery.delivered != True %}
+                          <a href="{% url 'delDeliveryItem' item.id delivery.id %}"><i style="color: red;" class="material-icons">delete</i></a>
+                          {% endif %}                        
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    {% if delivery.delivered != True %}
+                        <tr>
+                          <td> {{ deliveryItemForm.article }} </td>
+                          <td> {{ deliveryItemForm.quantity }} </td>
+                          <td> <input type="submit" value="ok" name="addItem" class="btn btn-primary"> </td>
+                        </tr>
+                    {% endif %}
+                  </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+{% endblock main %}
+
+
+{% block js %}
+  <script>
+    $(".sub_menu .deliveryLink").addClass('btn-primary customback')  
+    $('.form-group input, td input, td select').addClass('form-control')
+    $('.form-group select').addClass('form-control') 
+    $('.receivedInput input, .receivedInput select').attr('disabled', 'disabled')
+  </script>
+{% endblock js %}

@@ -47,6 +47,9 @@ body {
     width: 100px;
 }
 
+.employeeDesc{
+    overflow: hidden;
+}
 
 .table-contract{
     border: 1px solid black ;

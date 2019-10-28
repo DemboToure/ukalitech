@@ -1,0 +1,113 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block css %} 
+
+{% endblock css %}
+
+{% block title %}
+  Stock | Fournisseur detail
+{% endblock title %}
+
+
+{% block main %}
+        
+<div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Editer Fournisseur</h4>
+              <p class="card-category">Modifier le profil du fournisseur</p>
+            </div>
+            <div class="card-body">
+              <form method="POST" action="{% url 'gesstockProviderShow' provider.id %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Label</label>
+                      {{ providerForm.label }}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Adresse</label>
+                      {{ providerForm.adress }}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Tel</label>
+                      {{ providerForm.tel }}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Fix</label>
+                      {{ providerForm.fix }}
+                    </div>
+                  </div>
+                </div>
+                <input type="submit" name="updateProvider" class="btn btn-primary pull-right" value="Modifier">
+                <div class="clearfix"></div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Approvisionnement</h4>
+              <p class="card-category">Liste des approvisionnement effectue par {{ provider.label }}</p>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <tr><th>Date Approvisionnement</th><th>reçu</th><th>Ouvrir</th></tr>
+                {% for item in provider.procurement_set.all %}
+                  <tr>
+                    <td>{{ item.procurementDate }}</td>
+                    <td>{{ item.receivedLab }}</td>
+                    <td><a href="{% url 'gesstockProcurementShow' item.id %}">ouvrir</a></td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Etat Finencier</h4>
+              <p class="card-category">Etat financier du fournisseur Dette/Creance</p>
+            </div>
+            <div class="card-body">
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-profile">
+            <div class="card-avatar">
+              <a>
+                <img class="img" src="{{ provider.logo.url }}" />
+              </a>
+            </div>
+            <div class="card-body">
+              <h6 class="card-category text-gray">Fournisseur</h6>
+              <h4 class="card-title">{{ provider.label }}</h4>
+              <p class="card-description">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock main %}
+
+
+{% block js %}
+  <script>
+    $(".sub_menu .providerLink").addClass('btn-primary customback')  
+    $('.form-group input').addClass('form-control')
+  </script>
+{% endblock js %}

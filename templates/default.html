@@ -80,9 +80,15 @@
                 <p>Employe</p>
               </a>
             </li>
+            <li class="nav-item gesstock-link">
+              <a class="nav-link app-link" href="{% url 'gesstockHome' %}">
+                <i class="material-icons">content_paste</i>
+                <p>Gestion stocke</p>
+              </a>
+            </li>
             <li class="nav-item accounting-link">
               <a class="nav-link app-link" href="{% url 'accountingHome' %}">
-                <i class="material-icons">content_paste</i>
+                <i class="material-icons">account_balance</i>
                 <p>Comptailite</p>
               </a>
             </li>
@@ -102,7 +108,7 @@
                   <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
                 </button>
               </div>
-              <a class="navbar-brand" href="#pablo">Dashboard</a>
+              <a class="navbar-brand" href="">Actualiser</a>
             </div>
             {% endif %}
            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,8 +165,12 @@
             <div class="container">
                 {% if messages %}
                     {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}" role="alert">
-                      {{ message }}
+                    <div class="alert alert-{{ message.tags }}">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                      </button>
+                      <span>
+                        <b> {{ message.tags }} - </b> {{ message }} </span>
                     </div>
                     {% endfor %}
                 {% endif %}

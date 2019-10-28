@@ -1,0 +1,89 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block css %} 
+
+{% endblock css %}
+
+{% block title %}
+  Stock | Article detail
+{% endblock title %}
+
+
+{% block main %}
+        
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Editer Approvisionnement</h4>
+              <p class="card-category">Modifier l'Approvisionnement courant</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'gesstockProcurementShow' procurement.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group {% if procurement.received == True %} receivedInput {% endif %}">
+                          {{ procurementForm.provider }}
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group dataInput {% if procurement.received == True %} receivedInput {% endif %}">
+                          <label class="bmd-label-floating">Date</label>
+                          {{ procurementForm.procurementDate }}
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group {% if procurement.received == True %} receivedInput {% endif %} ">
+                          {{ procurementForm.received }}
+                        </div>
+                      </div>
+                    </div>
+                    {% if procurement.received != True %}
+                    <input type="submit" name="updateProcurement" class="btn btn-primary pull-right" value="Modifier">
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </form>
+                <form method="POST">
+                  {% csrf_token %}
+                  <table class="table">
+                    <tr><th>Article</th><th>Quantité</th><th><i class="material-icons">info</i></th></tr>
+                    {% for item in procurement.procurementitem_set.all %}
+                      <tr>
+                        <td>{{ item.article.label }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>
+                          {% if procurement.received != True %}
+                          <a href="{% url 'delProcurementItem' item.id procurement.id %}"><i style="color: red;" class="material-icons">delete</i></a>
+                          {% endif %}                        
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    {% if procurement.received != True %}
+                        <tr>
+                          <td> {{ procurementItemForm.article }} </td>
+                          <td> {{ procurementItemForm.quantity }} </td>
+                          <td> <input type="submit" value="ok" name="addItem" class="btn btn-primary"> </td>
+                        </tr>
+                    {% endif %}
+                  </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+{% endblock main %}
+
+
+{% block js %}
+  <script>
+    $(".sub_menu .procurementLink").addClass('btn-primary customback')  
+    $('.form-group input, td input, td select').addClass('form-control')
+    $('.form-group select').addClass('form-control') 
+    $('.receivedInput input, .receivedInput select').attr('disabled', 'disabled')
+  </script>
+{% endblock js %}

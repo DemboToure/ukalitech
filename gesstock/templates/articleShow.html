@@ -1,0 +1,138 @@
+{% extends "gesstock.html" %}
+{% load static %}
+
+{% block css %} 
+
+{% endblock css %}
+
+{% block title %}
+  Stock | Article detail
+{% endblock title %}
+
+
+{% block main %}
+        
+<div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Editer Article</h4>
+              <p class="card-category">Modifier l'article courant</p>
+            </div>
+            <div class="card-body">
+              <form method="POST" action="{% url 'gesstockArticleShow' article.id %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Label</label>
+                      {{ articleForm.label }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Reference</label>
+                      {{ articleForm.ref }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group ">
+                      <label class="bmd-label-floating">Quantité</label>
+                      {{ articleForm.quantity }} 
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Prix</label>
+                      {{ articleForm.price }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Unite</label>
+                      {{ articleForm.unite }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      {{ articleForm.category }}
+                    </div>
+                  </div>
+                </div>
+                <input type="submit" name="updateArticle" class="btn btn-primary pull-right" value="Modifier">
+                <div class="clearfix"></div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Livraison</h4>
+              <p class="card-category">historique des Livraisons | {{ article.label }}</p>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr><th>Date Livraison</th><th>Quantité</th><th>livré</th><th>Ouvrir</th></tr>
+                    {% for item in article.deliveryitem_set.all %}
+                      <tr>
+                        <td>{{ item.delivery.deliveryDate }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.delivery.deliveredLab }}</td>
+                        <td><a href="{% url 'gesstockDeliveryShow' item.delivery.id %}">ouvrir</a></td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Approvisionnement</h4>
+              <p class="card-category">historique d'approvisionnement | {{article.label}} </p>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr><th>Date Approvisionnement</th><th>Quantité</th><th>reçu</th><th>Ouvrir</th></tr>
+                    {% for item in article.procurementitem_set.all %}
+                      <tr>
+                        <td>{{ item.procurement.procurementDate }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.procurement.receivedLab }}</td>
+                        <td><a href="{% url 'gesstockProcurementShow' item.procurement.id %}">ouvrir</a></td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-profile">
+            <div class="card-avatar">
+              <a>
+                <img class="img" src="" />
+              </a>
+            </div>
+            <div class="card-body">
+              <h6 class="card-category text-gray">Article</h6>
+              <h4 class="card-title"></h4>
+              <p class="card-description">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock main %}
+
+
+{% block js %}
+  <script>
+    $(".sub_menu .articleLink").addClass('btn-primary customback')  
+    $('.form-group input').addClass('form-control')
+    $('.form-group select').addClass('form-control')
+    $('.quantityInput input').attr('disabled', 'disabled')
+
+  </script>
+{% endblock js %}

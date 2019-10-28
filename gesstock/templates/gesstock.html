@@ -1,0 +1,40 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block mainpage %}
+    <ul class="nav sub_menu"  style="">
+      <li class="nav-item">
+        <a class="nav-link homelink" href="{% url 'gesstockHome' %}">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link providerLink" href="{% url 'gesstockProvider' %}">Fournisseur</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link customerLink" href="{% url 'gesstockCustomer' %}">Client</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link articleLink" href="{% url 'gesstockArticle' %}">Article</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link procurementLink" href="{% url 'gesstockProcurement' %}">Approvisionnement</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link deliveryLink" href="{% url 'gesstockDelivery' %}">Livraison</a>
+      </li>
+    </ul>
+    {% block main %}
+      <h1>Dashboard</h1>
+    {% endblock main %}
+{% endblock mainpage %}
+
+{% block customJs %}
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.gesstock-link').addClass('active')     
+  </script>
+  {% block js %}
+    <script>
+      $(".sub_menu .homelink").addClass('btn-primary customback')
+    </script>
+  {% endblock %}
+{% endblock customJs %}
