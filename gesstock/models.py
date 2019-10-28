@@ -9,7 +9,7 @@ class Provider(models.Model):
     tel         = models.CharField(max_length=20, blank=True)
     fix         = models.CharField(max_length=20, blank=True)
     created_at  = models.DateTimeField(auto_now=True)
-    logo        = models.ImageField(upload_to='gesstock/', default='gesstock/customer-icon.png', blank=True)
+    logo        = models.ImageField(upload_to='gesstock/', default='gesstock/provider-icon.png', blank=True)
 
     def __str__(self):
         return self.label
