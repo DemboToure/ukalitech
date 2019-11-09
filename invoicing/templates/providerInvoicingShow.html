@@ -1,0 +1,170 @@
+{% extends "invoicing.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+  Facturation | show
+{% endblock title %}
+
+{% block css %}
+  <style>
+    .pageFac{
+      font-size: 0.9em;
+    }
+    .head{
+        display: flex;
+        justify-content: space-between;
+    }
+    .facLab{
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .dellink{
+      display: none;
+    }
+    .itemListElm:hover .dellink{
+      display: inline;
+    }
+    .foot{
+      display: flex;
+      justify-content: flex-end;
+    }
+    .foot table{
+      text-align: right;
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+  <input type="hidden" id="idInvoice" value="{{invoice.id}}">
+  <div style="text-align: center;">
+    {% if invoice.accounting == False %}
+      <a href="{% url 'providerInvoicingAccounting' invoice.id %}" class="btn btn-danger">Comptabilisé</a>
+    {% elif invoice.isPayed == False  %}
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPayment">
+        Ajouter paiement
+      </button>
+    {% endif %}
+    <a href="#" class="btn btn-primary">imprimé</a>
+
+  </div>
+
+        <!-- The Modal -->
+      <div class="modal fade" id="addPayment">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Ajouter un paiement a la facture</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="POST"  enctype="multipart/form-data" action="{% url 'addProviderPayment' invoice.id %}" >
+              {% csrf_token %}
+              <!-- Modal body -->
+              <div class="modal-body">
+                <table class="table">
+                  {{ invoicePayForm.as_table }}
+                </table>
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+              <input type="submit" class="btn btn-primary">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  <div class="pageFac container"  style="background-color: white;" >
+    <div class="col-md-12">
+      <div class="facLab">Facture Client {{ invoice.number }}</div>
+      <div class="head">
+        <div> 
+          <table class="table">
+            <tr><th>Non</th><td> {{ request.session.entrepriseinfo.name }} </td></tr>
+            <tr><th>Type</th><td> {{ request.session.entrepriseinfo.entreprise_type }} </td></tr>
+            <tr><th>Adresse</th><td> {{ request.session.entrepriseinfo.adress }} </td></tr>
+            <tr><th>Contact</th><td> {{ request.session.entrepriseinfo.contact }} </td></tr>
+            <tr><th>Contact 2</th><td> {{ request.session.entrepriseinfo.contact_2 }} </td></tr>
+            <tr><th>Numero NINEA</th><td> {{ request.session.entrepriseinfo.ninea_number }} </td></tr>
+          </table>
+        </div>
+        <div>
+          <table class="table">
+            <tr><th colspan="2" style="text-align: center;">Client</th></tr>
+            <tr><th>Nom</th><td> {{ invoice.provider.label }} </td></tr>
+            <tr><th>Adresse</th><td> {{ invoice.provider.adress }} </td></tr>
+            <tr><th>Tel</th><td> {{ invoice.provider.tel }} </td></tr>
+            <tr><th colspan="2" style="text-align: center;">Facture</th></tr>
+            <tr><th>Crée</th><td> {{ invoice.created_at }} </td></tr>
+            <tr><th>Dateline</th><td> {{ invoice.dateline }} </td></tr>
+            <tr><th>Comptabilisé</th><td> {{ invoice.accounting }} </td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="content">
+        <table class="table table-striped">
+          <thead class="thead-light">
+            <tr><th scope="col">Article</th><th scope="col">Label</th><th scope="col">Quantité</th><th scope="col">Prix</th><th scope="col">TVA</th><th scope="col">Total</th></tr>
+          </thead>
+          <tbody>
+            
+            {% for item in invoice.invoiceitem_set.all %}
+              <tr class="itemListElm">
+                <td> {{item.article}} </td>
+                <td> {{ item.label }} </td>
+                <td> {{ item.quantity }} </td>
+                <td> {{ item.price }} </td>
+                <td> {{ item.tva }} </td>
+                <td> 
+                  {{ item.computeSolde|intcomma }} 
+                  {% if invoice.accounting == False %}
+                    <a class="dellink pull-right" href="{% url 'delProviderInvoicingItem' invoice.id item.id %}"><i style="color: red;" class="material-icons">delete</i></a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            {% if invoice.accounting == False %}
+            <form method="POST"> 
+              {% csrf_token %}
+              <tr>
+                <td> {{itemForm.article}} </td>
+                <td> {{ itemForm.label }} </td>
+                <td> {{ itemForm.quantity }} </td>
+                <td> {{ itemForm.price }} </td>
+                <td> {{ itemForm.tva }} </td>
+                <td> <input type="submit" class="btn btn-primary"> </td>
+              </tr>
+            </form>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <div class="foot">
+        <table class="">
+          <tr><th>Montant HT</th><td>{{ invoice.pretaxAmount|intcomma }}</td></tr>
+          <tr><th>TVA</th><td>{{ invoice.tvaAmount|intcomma }}</td></tr>
+          <tr><th></th><td><hr></td></tr>
+          <tr><th>Total</th><td>{{ invoice.totalAmount|intcomma }}</td></tr>
+          {% for pay in invoice.invoicepay_set.all %}
+            <tr><th> {{ pay.created_at }} </th><td> {{ pay.amount|intcomma }} </td></tr>
+          {% endfor %}
+          <tr><th></th><td><hr></td></tr>
+          <tr><th>Restant</th><td> {{ invoice.remainingPay|intcomma }} </td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock main %}
+{% block js %}
+  <script>
+    $(".sub_menu .providerLink").addClass('btn-primary customback')  
+    $('#id_invoice').val( $('#idInvoice').val() )
+      .parent().parent()
+      .hide()
+  </script>
+{% endblock js %}
+

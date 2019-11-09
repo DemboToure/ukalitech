@@ -86,6 +86,12 @@
                 <p>Gestion stocke</p>
               </a>
             </li>
+            <li class="nav-item invoicing-link">
+              <a class="nav-link app-link" href="{% url 'invoicingHome' %}">
+                <i class="material-icons">content_paste</i>
+                <p>Facturation</p>
+              </a>
+            </li>
             <li class="nav-item accounting-link">
               <a class="nav-link app-link" href="{% url 'accountingHome' %}">
                 <i class="material-icons">account_balance</i>
@@ -175,6 +181,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
+            
             <div class="">
                 {% block mainpage %}
                   

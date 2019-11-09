@@ -8,7 +8,7 @@
 {% block main %}
     <h3 style="text-align: center;">Journal comptable</h3>
     <div class="row">
-        <div class="col-md-10 offset-md-1 ">
+        <div class="col-md-12">
             <div>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary customback" data-toggle="modal" data-target="#exampleModal">
@@ -63,17 +63,29 @@
                         <thead>
                             <tr>
                                 <th>Label</th>
+                                <th>Compte</th>
+                                <th>Partenaire</th>
                                 <th>Document</th>
+                                <th>Fait le</th>
                                 <th>Debit</th>
                                 <th>Credit</th>
-                                <th>Fait le</th>
-                                <th>Compte</th>
                             </tr>
                         </thead>
                         {% for op in operations %}
                         <tr>
                             <td> {{ op.label }} </td>
-                            <td> <a target="_blank" href="{{ op.document.url }}">document</a></td>
+                            <td> {{ op.account.account_number }} </td>
+                            {% if op.provider != None %}
+                                <td> {{ op.provider.label }} </td>
+                            {% else %}
+                                <td> {{ op.customer.label }} </td>
+                            {% endif %}
+                            <td> 
+                                {% if op.hasDocument == True %}
+                                    <a target="_blank" href="{{ op.document.url }}">document</a>
+                                {% endif %}
+                            </td>
+                            <td> {{ op.created_at }} </td>
                             {% if op.type_operation == 'DEBIT' %}
                                 <td> {{ op.solde }} </td>
                                 <td>_</td>
@@ -81,17 +93,16 @@
                                 <td>_</td>
                                 <td> {{ op.solde }} fr</td>
                             {% endif %}
-                            <td> {{ op.created_at }} </td>
-                            <td> {{ op.account.account_number }} </td>
                         </tr>
                         {% endfor %}
                         <tr>
                             <th>TOTAL</th>
                             <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th>Debit</th>
                             <th>Credit</th>
-                            <th></th>
-                            <th></th>
                         </tr>
                     </table>
               </div>

@@ -1,0 +1,111 @@
+{% extends "invoicing.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+  Facturation | Clients
+{% endblock title %}
+
+{% block css %}
+  <style>
+
+  </style>
+{% endblock %}
+
+{% block main %}
+  <input type="hidden" id="currentUserId" value="{{ currentUserId }}">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Button to Open the Modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInvoice">
+        Ajouter
+      </button>
+
+      <!-- The Modal -->
+      <div class="modal fade" id="addInvoice">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Ajouter une facture Client</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="POST" >
+              {% csrf_token %}
+              <!-- Modal body -->
+              <div class="modal-body">
+                  <table class="table">
+                    {{ invoiceForm.as_table }}
+                  </table>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+              <input type="submit" class="btn btn-primary">
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Liste des Factures</h4>
+            <p class="card-category">Liste des Factures Client</p>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <tr>
+                <th>Numero</th>
+                <th>crée le</th>
+                <th>Date limite</th>
+                <th>Comptabilisé</th>
+                <th>Responsable</th>
+                <th>Client</th>
+                <th>Montant Payé</th>
+                <th>Restant</th>
+                <th><i class="material-icons">info</i></th>
+              </tr>
+              {% for invoice in invoices %}
+                <tr>
+                  <td> {{invoice.number}} </td>
+                  <td> {{invoice.created_at}} </td>
+                  <td> {{invoice.dateline}} </td>
+                  {% if invoice.accounting == True %}
+                    <td><span style="color:green">OUI</span></td>
+                  {% else %}
+                    <td><span style="color: red;">NON</span></td>
+                  {% endif %}
+                  <td> {{invoice.user.username}} </td>
+                  <td> {{invoice.customer.label}} </td>
+                  <td> {{ invoice.totalPay|intcomma }} </td>
+                  <td> {{ invoice.remainingPay|intcomma }} </td>
+                  <td><a href="{% url 'customerInvoicingShow' invoice.id %}"><i class="material-icons">info</i></a></td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+      </div>
+  </div>
+  </div>
+{% endblock main %}
+{% block js %}
+  <script>
+    $(".sub_menu .customerLink").addClass('btn-primary customback')  
+    $('.ip input').addClass('form-control')
+    $('.ip select').addClass('form-control')
+
+    $('#id_user').val( $('#currentUserId').val() )
+    $('#id_provider').parent().parent().hide()
+    $('#id_user').parent().parent().hide()
+    $('#id_accounting').parent().parent().hide()
+    $('#id_customer').attr('required', 'required')
+    $('#id_dateline').attr('type', 'date')
+    $('form table input, form table select').addClass('form-control')
+  </script>
+{% endblock js %}

@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import datetime, date
 from django.contrib.auth.decorators import login_required , user_passes_test
 from django.core.files.storage import FileSystemStorage
-import xlrd
+import xlrd 
 import os
 from ukalierp import settings
 from django.contrib import messages

@@ -24,6 +24,7 @@ from contact import urls as contactUrls
 from employee import urls as employeeUrls
 from accounting import urls as accountingUrls
 from ged import urls as gedUrls
+from invoicing import urls as invoicingUrls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +35,8 @@ urlpatterns = [
     path('employee/', include(employeeUrls) ) ,
     path('accounting/', include(accountingUrls) ) ,
     path('ged/', include(gedUrls) ) ,
+    path('invoicing/', include(invoicingUrls) ) ,
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

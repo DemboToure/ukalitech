@@ -1,0 +1,31 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block mainpage %}
+    <ul class="nav sub_menu"  style="">
+      <li class="nav-item">
+        <a class="nav-link homelink" href=" {% url 'invoicingHome' %} ">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link providerLink" href=" {% url 'providerInvoicing' %} ">Fournisseur</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link customerLink" href=" {% url 'customerInvoicing' %} ">Client</a>
+      </li>
+    </ul>
+    {% block main %}
+      <h1>Facturation</h1>
+    {% endblock main %}
+{% endblock mainpage %}
+
+{% block customJs %}
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.invoicing-link').addClass('active')     
+  </script>
+  {% block js %}
+    <script>
+      $(".sub_menu .homelink").addClass('btn-primary customback')
+    </script>
+  {% endblock %}
+{% endblock customJs %}

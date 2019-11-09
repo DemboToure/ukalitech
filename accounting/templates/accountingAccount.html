@@ -15,12 +15,12 @@
             </div>
             <div class="card-body">
                 <table class="table ">
-                    <tr><th>Label</th><th>Numero compte</th><th>creer le</th></tr>
+                    <tr><th>Label</th><th>Numero compte</th><th>Type de compte</th></tr>
                     {% for act in accounts %}
                     <tr>
-                        <td> {{ act.label }} </td>
                         <td> {{ act.account_number }} </td>
-                        <td> {{ act.created_at }} </td>
+                        <td> {{ act.label }} </td>
+                        <td> {{ act.account_type }} </td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -28,6 +28,23 @@
         </div>
       </div>
       <div class="col-md-5">
+          <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Importer un fichier excel</h4>
+                <p class="card-category"></p>
+            </div>
+            <div class="card-body">
+              <form enctype="multipart/form-data" action="{% url 'accountingImport' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="id_username" style="cursor: pointer;" >Selectionner le fichier excel</label>
+                  <input type="file" class="form-control" name="excelfile" required id="id_username">
+                </div>
+                <input type="submit" class="btn customback" style="color: #fff;">
+                <a href="#" class="float-right btn btn-primary customback">voir exmeple</a>
+              </form>
+            </div>
+          </div>
           <div class="card">
               <div class="card-header card-header-primary">
                   <h4 class="card-title">Ajouter un compte</h4>
@@ -43,6 +60,7 @@
                     </form>
               </div>
           </div>
+          
       </div>
     </div>
 {% endblock main %}

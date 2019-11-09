@@ -9,5 +9,6 @@ urlpatterns = [
     path('accounting_bilan', views.accounting_bilan, name='accountingBilan'),
     path('accounting_balance', views.accounting_balance, name='accountingBalance'),
     path('accounting_result', views.accounting_result, name='accountingResult'),
+    path('accounting_import', views.accounting_import, name='accountingImport'),
 
 ]
