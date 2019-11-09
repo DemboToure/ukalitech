@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required , user_passes_test
 from django.core.files.storage import FileSystemStorage
 import os
 from ukalierp import settings
+import time
 
 
 
@@ -36,6 +37,7 @@ def accounting_import(request):
         filename = fs.save(myFile.name, myFile)
         uploaded_file_url = fs.url(filename)
         name, ext = myFile.name.split('.')
+        time.sleep(2)
         if ext == "xlsx":
             print("format matched")
             data = xlrd.open_workbook('uploads/'+myFile.name)
