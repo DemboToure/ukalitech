@@ -29,7 +29,7 @@
                 {% for account in accounts %}
                   <div class="col-md-3 elt-account">
                     <table class="table table-bordered">
-                      <tr><th colspan="2" style="color: #fff" class="customback">N de compte</th></tr>
+                      <tr><th colspan="2" style="color: #fff" class="customback"> {{ account.label }} </th></tr>
                       <tr><th colspan="2">{{ account.account_number }}</th></tr>
                       <tr><th>Débit</th><th>Crédit</th></tr>
                       {% for debit,credit in account.get_debit_credit_both %}

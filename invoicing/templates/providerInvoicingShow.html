@@ -47,7 +47,7 @@
         Ajouter paiement
       </button>
     {% endif %}
-    <a href="#" class="btn btn-primary">imprimé</a>
+    <a href="{% url 'generateInvoicePDF' invoice.id %} " target="_blank" class="btn btn-primary">imprimé</a>
 
   </div>
 

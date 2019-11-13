@@ -15,4 +15,7 @@ urlpatterns = [
     path('addProviderPayment-<int:idInvoice>', views.addProviderPayment, name='addProviderPayment'),
     path('delProviderInvoicingItem-<int:idInvoice>-<int:idItem>', views.delProviderInvoicingItem, name='delProviderInvoicingItem'),
 
+
+    path('generateInvoicePDF-<int:id>', views.generateInvoicePDF, name='generateInvoicePDF'),
+
 ]

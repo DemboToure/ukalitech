@@ -2,8 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required , user_passes_test
 from .models import *
 from .forms import *
+from entrepriseinfo.models import EntrepriseInfo
 from accounting.models import Account, Operation
 from django.contrib import messages
+
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+import tempfile
+from django.conf import settings 
 
 
 # Create your views here.
@@ -12,6 +19,36 @@ def home(request):
 
 
     return render(request, 'invoicing.html')
+
+
+"""
+# Generate PDF of invoicing client or provider
+"""
+
+@login_required(login_url='/website/login_user')
+def generateInvoicePDF(request, id):
+    """Generate pdf."""
+    # Model data
+    invoice = Invoice.objects.get(id=id)
+    entreprise = EntrepriseInfo.objects.all()[0]
+
+    # Rendered
+    html_string = render_to_string('pdf.html', {'invoice': invoice, 'entrepriseinfo':entreprise })
+    html = HTML(string=html_string)
+    result = html.write_pdf(stylesheets=[settings.BASE_DIR + '/static/css/invoice.css',])
+
+    # Creating http response
+    response = HttpResponse(content_type='application/pdf;')
+    response['Content-Disposition'] = 'inline; filename=facture.pdf'
+    response['Content-Transfer-Encoding'] = 'binary'
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output = open(output.name, 'rb')
+        out = output.read()
+        response.write(out)
+
+    return response
 
 
 """

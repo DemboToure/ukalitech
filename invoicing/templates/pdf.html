@@ -1,0 +1,108 @@
+ {% load static %}
+ {% load humanize %}
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+    <meta name="author" content="Kozea">
+    <style>
+        @page {
+            margin: 3cm;
+            @bottom-left {
+                color: #9c27b0;
+                font-family: Pacifico;
+                content: '♥ Merci'; 
+            }
+            @bottom-right {
+                color: #a9a;
+                content: ' {{ entrepriseinfo.name }} | {{ entrepriseinfo.contact }} | {{ entrepriseinfo.adress }} ';
+                font-family: Pacifico;
+                font-size: 9pt; 
+            }
+        }
+        .foot{
+            width: 50%;
+        }
+    </style>
+  </head>
+
+  <body>
+    <h1>Facture</h1>
+
+    <aside>
+      <address id="from">
+        {{ entrepriseinfo.name }} 
+        {{ entrepriseinfo.entreprise_type }} 
+        {{ entrepriseinfo.adress }} 
+        {{ entrepriseinfo.contact }} 
+        {{ entrepriseinfo.contact_2 }} 
+        {{ entrepriseinfo.ninea_number }}
+      </address>
+
+      <address id="to">
+        {% if invoice.customer == None %}
+            {{ invoice.provider.label }} 
+            {{ invoice.provider.adress }} 
+            {{ invoice.provider.tel }} 
+            {{ invoice.created_at }} 
+            {{ invoice.dateline }} 
+        {% else %}
+            {{ invoice.customer.label }} 
+            {{ invoice.customer.adress }} 
+            {{ invoice.customer.tel }} 
+            {{ invoice.created_at }} 
+            {{ invoice.dateline }} 
+        {% endif %}
+      </address>
+    </aside>
+
+    <dl id="informations">
+      <dt>numbero facture</dt>
+      <dd>{{ invoice.number }}</dd>
+      <dt>Date</dt>
+      <dd>{{ invoice.created_at }}</dd>
+      <dt>Date Limite</dt>
+      <dd>{{ invoice.dateline }}</dd>
+    </dl>
+
+    <table>
+        <thead>
+            <tr><th scope="col">Article</th><th scope="col">Label</th><th scope="col">Quantité</th><th scope="col">Prix</th><th scope="col">TVA</th><th scope="col">Total</th></tr>
+        </thead>
+        <tbody>
+            {% for item in invoice.invoiceitem_set.all %}
+            <tr>
+                <td> {{item.article}} </td>
+                <td> {{ item.label }} </td>
+                <td> {{ item.quantity }} </td>
+                <td> {{ item.price }} </td>
+                <td> {{ item.tva }} </td>
+                <td> 
+                {{ item.computeSolde|intcomma }} 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <aside>
+        <address id="from">
+          Signature ou Cachet
+        </address>
+  
+        <address id="to">
+            Montant HT : <span class="label">{{ invoice.pretaxAmount|intcomma }} </span>
+            Tva        : <span class="label">{{ invoice.tvaAmount|intcomma }} </span>
+            Total      : <span class="label"> {{ invoice.totalAmount|intcomma }}</span> 
+            {% for pay in invoice.invoicepay_set.all %}
+                {{ pay.created_at }} : <span class="label">{{ pay.amount|intcomma }}</span>
+            {% endfor %}
+            Restant   : <span class="label">{{ invoice.remainingPay|intcomma }} </span>
+        </address>
+      </aside>
+
+  </body>
+</html>

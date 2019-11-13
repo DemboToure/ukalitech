@@ -14,14 +14,71 @@
       </li>
     </ul>
     {% block main %}
-      <h1>Facturation</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-chart">
+          <div class="card-header ">
+            <div style="width: 100%;" class="invoice-chart" id=""></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">statistiaue de Facturation</h4>
+            <p class="card-category">Nombre de facture par jour</p>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">access_time</i> campaign sent 2 days ago
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Facture</h4>
+              <p class="card-category">Facture en attente de validation</p>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Salary</th>
+                  <th>Country</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>3</td>
+                    <td>Sage Rodriguez</td>
+                    <td>$56,142</td>
+                    <td>Netherlands</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Philip Chaney</td>
+                    <td>$38,735</td>
+                    <td>Korea, South</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
     {% endblock main %}
 {% endblock mainpage %}
 
 {% block customJs %}
   <script>
     $('.app-link').parent().removeClass('active') 
-    $('.invoicing-link').addClass('active')     
+    $('.invoicing-link').addClass('active') 
+
+    new Chartist.Bar('.invoice-chart', {
+      labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+      series: [20, 10, 15, 12, 18, 20]
+    }, {
+      distributeSeries: true
+    });
   </script>
   {% block js %}
     <script>
