@@ -9,6 +9,9 @@
 
 {% block css %}
   <style>
+    input{
+      width: 100%;
+    }
     .pageFac{
       font-size: 0.9em;
     }
@@ -108,7 +111,15 @@
       <div class="content">
         <table class="table table-striped">
           <thead class="thead-light">
-            <tr><th scope="col">Article</th><th scope="col">Label</th><th scope="col">Quantité</th><th scope="col">Prix</th><th scope="col">TVA</th><th scope="col">Total</th></tr>
+            <tr>
+              <th scope="col">Article</th>
+              <th scope="col">Label</th>
+              <th scope="col">Compte</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix</th>
+              <th scope="col">TVA</th>
+              <th scope="col">Total</th>
+            </tr>
           </thead>
           <tbody>
             
@@ -116,6 +127,7 @@
               <tr class="itemListElm">
                 <td> {{item.article}} </td>
                 <td> {{ item.label }} </td>
+                <td> {{ item.account }} </td>
                 <td> {{ item.quantity }} </td>
                 <td> {{ item.price }} </td>
                 <td> {{ item.tva }} </td>
@@ -133,6 +145,7 @@
               <tr>
                 <td> {{itemForm.article}} </td>
                 <td> {{ itemForm.label }} </td>
+                <td> {{ itemForm.account }} </td>
                 <td> {{ itemForm.quantity }} </td>
                 <td> {{ itemForm.price }} </td>
                 <td> {{ itemForm.tva }} </td>

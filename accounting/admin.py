@@ -3,7 +3,7 @@ from .models import *
 # Register your models here.
 
 class AccountAdmin(admin.ModelAdmin):
-    list_display   = ('label', 'account_number','created_at' )
+    list_display   = ('label', 'account_number','created_at', 'id' )
 
 class OperationAdmin(admin.ModelAdmin):
     list_display   = ('label', 'solde','type_operation' )

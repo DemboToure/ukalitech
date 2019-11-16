@@ -41,24 +41,25 @@
             <div class="card-body table-responsive">
               <table class="table table-hover">
                 <thead class="text-warning">
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Salary</th>
-                  <th>Country</th>
+                  <th>Date</th>
+                  <th>Responsable</th>
+                  <th>Client/Fourni</th>
+                  <th><i class="material-icons">info</i></th>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>3</td>
-                    <td>Sage Rodriguez</td>
-                    <td>$56,142</td>
-                    <td>Netherlands</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Philip Chaney</td>
-                    <td>$38,735</td>
-                    <td>Korea, South</td>
-                  </tr>
+                  {% for invoice in invoices %}
+                    <tr>
+                      <td> {{ invoice.created_at }} </td>
+                      <td> {{ invoice.user.username }} </td>
+                      {% if invoice.customer == None %}
+                        <td> {{ invoice.provider.label }} </td>
+                      {% else %}
+                        <td> {{ invoice.customer.label }} </td>
+                      {% endif %}
+                      <td><a href="{% url 'customerInvoicingShow' invoice.id %}"><i class="material-icons">info</i></a></td>
+                    </tr>
+                  {% endfor %}
+                  
                 </tbody>
               </table>
             </div>

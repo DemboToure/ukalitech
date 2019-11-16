@@ -16,9 +16,9 @@ from django.conf import settings
 # Create your views here.
 @login_required(login_url='/website/login_user')
 def home(request):
-
-
-    return render(request, 'invoicing.html')
+    invoices = Invoice.objects.filter(accounting=False).order_by("-created_at")
+    
+    return render(request, 'invoicing.html', locals())
 
 
 """
@@ -84,7 +84,14 @@ def customerInvoicingShow(request, id):
     if request.method == "POST":
         invoiceItem = InvoiceItem()
         try:
+            acc = Account.objects.get(id=request.POST['account'])
+            invoiceItem.account = acc
+        except:
+            print("no account selected")
+            
+        try:
             art = Article.objects.get(id=request.POST['article'])
+
             invoiceItem.article = art
         except:
             print("no article selected")
@@ -175,14 +182,15 @@ def customerInvoicingAccounting(request, idInvoice):
         opDebitClient.customer= invoice.customer
         opDebitClient.save()
 
-        productAccount = Account.objects.get(account_number=701)
-        opCreditVente = Operation()
-        opCreditVente.label = "facture {}".format(invoice.customer.label)
-        opCreditVente.solde = invoice.pretaxAmount()
-        opCreditVente.type_operation = "credit"
-        opCreditVente.account = productAccount
-        opCreditVente.customer= invoice.customer
-        opCreditVente.save()
+        for item in invoice.invoiceitem_set.all():
+            productAccount = Account.objects.get(account_number=item.account.account_number)
+            opCreditVente = Operation()
+            opCreditVente.label = "facture {}".format(invoice.customer.label)
+            opCreditVente.solde = item.computeSolde()
+            opCreditVente.type_operation = "credit"
+            opCreditVente.account = productAccount
+            opCreditVente.customer= invoice.customer
+            opCreditVente.save()
 
         tvaAccount = Account.objects.get(account_number=443)
         opCreditTva = Operation()
@@ -235,10 +243,18 @@ def providerInvoicingShow(request, id):
     if request.method == "POST":
         invoiceItem = InvoiceItem()
         try:
+            acc = Account.objects.get(id=request.POST['account'])
+            invoiceItem.account = acc
+        except:
+            print("no account selected")
+            
+        try:
             art = Article.objects.get(id=request.POST['article'])
+
             invoiceItem.article = art
         except:
             print("no article selected")
+       
         try:
             invoiceItem.invoice = invoice
             invoiceItem.label   = request.POST['label']
@@ -264,14 +280,15 @@ def providerInvoicingAccounting(request, idInvoice):
         invoice.accounting = True 
         invoice.save()
         # traitement des transactions dans la comptabilité a faire
-        chargeAccount = Account.objects.get(account_number=601)
-        opDebitCharge = Operation()
-        opDebitCharge.label = invoice.number
-        opDebitCharge.solde = invoice.pretaxAmount()
-        opDebitCharge.type_operation = "DEBIT"
-        opDebitCharge.account = chargeAccount
-        opDebitCharge.provider = invoice.provider
-        opDebitCharge.save()
+        for item in invoice.invoiceitem_set.all():
+            chargeAccount = Account.objects.get(account_number=item.account.account_number)
+            opDebitCharge = Operation()
+            opDebitCharge.label = invoice.number 
+            opDebitCharge.solde = item.computeSolde() 
+            opDebitCharge.type_operation = "DEBIT" 
+            opDebitCharge.account = chargeAccount 
+            opDebitCharge.provider = invoice.provider 
+            opDebitCharge.save() 
 
         tvaAccount = Account.objects.get(account_number=445)
         opDebitCharge = Operation()

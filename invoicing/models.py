@@ -1,5 +1,6 @@
 from django.db import models
 from gesstock.models import Provider, Customer, Article
+from accounting.models import Account
 from django.contrib.auth.models import User
 #from django.http import request
 
@@ -67,6 +68,8 @@ class InvoiceItem(models.Model):
     tva         = models.IntegerField(default=18)
 
     invoice     = models.ForeignKey("Invoice", on_delete=models.PROTECT)
+    account     = models.ForeignKey(Account, on_delete=models.PROTECT)
+
 
 
     def __str__(self):
