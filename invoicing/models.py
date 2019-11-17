@@ -73,7 +73,7 @@ class InvoiceItem(models.Model):
 
 
     def __str__(self):
-        return "{} -- {}".format(self.article.label, self.invoice.number)
+        return "{} -- {}".format(self.label, self.invoice.number)
 
     # return Solde without tva
     def computeSolde(self):
