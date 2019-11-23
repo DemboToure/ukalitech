@@ -25,6 +25,7 @@ from employee import urls as employeeUrls
 from accounting import urls as accountingUrls
 from ged import urls as gedUrls
 from invoicing import urls as invoicingUrls
+from archiving import urls as archivingUrls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,7 +37,7 @@ urlpatterns = [
     path('accounting/', include(accountingUrls) ) ,
     path('ged/', include(gedUrls) ) ,
     path('invoicing/', include(invoicingUrls) ) ,
-
+    path('archiving/', include(archivingUrls) ) ,
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

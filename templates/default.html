@@ -63,18 +63,18 @@
                 <p>Admin</p>
               </a>
             </li>
-            <li class="nav-item apps-link">
+            <!-- <li class="nav-item apps-link">
               <a class="nav-link app-link" href="{% url 'applications' %}">
                 <i class="material-icons">bubble_chart</i>
                 <p>Apps</p>
               </a>
-            </li>
+            </li> 
             <li class="nav-item contact-link">
               <a class="nav-link app-link" href="{% url 'contactHome' %}">
                 <i class="material-icons">book</i>
                 <p>Contact</p>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item employee-link">
               <a class="nav-link app-link" href="{% url 'employeeHome' %}">
                 <i class="material-icons"> supervisor_account </i>
@@ -97,6 +97,12 @@
               <a class="nav-link app-link" href="{% url 'accountingHome' %}">
                 <i class="material-icons">account_balance</i>
                 <p>Comptailite</p>
+              </a>
+            </li>
+            <li class="nav-item archiving-link">
+              <a class="nav-link app-link" href="{% url 'archivingHome' %}">
+                <i class="material-icons">account_balance</i>
+                <p>Archivage</p>
               </a>
             </li>
           </ul>
@@ -271,6 +277,21 @@
    {% block customJs %}
    {% endblock customJs %}
    <script>
+     var opened = false 
+     $(".visible-on-sidebar-regular").click(function() {
+       if (!opened) {
+        $(".sidebar").hide()
+        $(".main-panel").css('width', "100%")  
+        opened = true
+       }else{
+        $(".sidebar").show()
+        $(".sidebar").css('width', "20%")  
+        $(".sidebar").css('overflow', "hidden")  
+        $(".main-panel").css('width', "80%")  
+        opened = false
+       }
+     })
+
      $(document).ready(function() {
        $().ready(function() {
          $sidebar = $('.sidebar');

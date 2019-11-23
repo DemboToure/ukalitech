@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounting',
     'ged',
     'invoicing' ,
+    'archiving' ,
 ]
 
 MIDDLEWARE = [

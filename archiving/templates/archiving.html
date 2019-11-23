@@ -1,0 +1,52 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block css %}
+    <style>
+        .folder{
+            margin: 5px;
+        }
+        .folder img{
+            width: 100px;
+            display: block;
+            margin: auto;
+        }
+        .folder p{
+            text-align: center;
+            font-weight: bold;
+        }
+        .folderBloc{
+            display: flex;
+        }
+    </style>
+{% endblock css %}
+
+
+{% block mainpage %}
+    {% block main %}
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        <input type="text" name="label" required class="">
+        <input type="submit" name="addFolder" value="Creer Dossier" class="btn btn-primary">
+    </form>
+    <div class="folderBloc">
+        {% for folder in folders %}
+            <a class="folder" href="{% url 'showFolder' folder.id %}">
+                <img src=" {% static 'images/folder.png' %} " alt="">
+                <p> {{ folder.label }} </p>
+            </a>
+        {% endfor %}
+    </div>
+    {% endblock main %}
+{% endblock mainpage %}
+
+{% block customJs %}
+  <script>
+    $('.app-link').parent().removeClass('active') 
+    $('.archiving-link').addClass('active') 
+    
+  </script>
+  {% block js %}
+  {% endblock js %}
+{% endblock customJs %}
+

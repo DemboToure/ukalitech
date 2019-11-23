@@ -1,0 +1,170 @@
+{% extends "archiving.html" %}
+{% load static %}
+
+
+{% block title %}
+  Archive | {{ folder.label }}
+{% endblock title %}
+
+{% block css %}
+  <style>
+    .folder{
+        margin: 3px;
+    }
+    .folder img{
+        width: 70px;
+        display: block;
+        margin: auto;
+    }
+    .folder p{
+        text-align: center;
+        font-weight: bold;
+    }
+    .file{
+      cursor: pointer;
+    }
+    .file:hover{
+      background-color: #d4d4d4 ;
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'archivingHome' %}">home</a>
+      </li>
+      {% for elt in path %}
+      <li class="breadcrumb-item">
+          <a href="{% url 'showFolder' elt.id %}">{{ elt.label }}</a>
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
+  <div class="" style="display: flex;">
+    <form method="POST" autocomplete="off">
+      {% csrf_token %}
+      <input type="text" name="label" required class="">
+      <input type="submit" name="addFolder" value="Creer Dossier" class="btn btn-primary">
+    </form>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFile">
+      Charger un fichier
+    </button>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal" id="addFile">
+    <div class="modal-dialog">
+      <div class="modal-content"> 
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Chargement de fichier</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form enctype="multipart/form-data" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <input type="hidden" name="parentFolder" value="{{folder.id}}">
+            <div class="form-group">
+              <label for="">Label</label>
+              <input type="text" name="label" required class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="">description</label>
+              <textarea name="description" id="" cols="30" rows="5" class="form-control" required></textarea>
+            </div>
+            <div class="">
+              <label for="">Fichier</label>
+              <input type="file" name="document" class="" required>
+            </div>
+            <input type="submit" name="addFile" value="Valider" class="btn btn-primary">
+          </form>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 ">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Liste des dossier et fichier | {{ folder.label }}</h4>
+                <p class="card-category"></p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                  {% for folder in folder.archivingfolder_set.all %}
+                    <div class="col-md-2">
+                      <a class="folder" href="{% url 'showFolder' folder.id %}">
+                          <img src=" {% static 'images/folder.png' %} " alt="">
+                          <p> {{ folder.label }} </p>
+                      </a>
+                    </div>
+                  {% endfor %}
+                  {% for file in folder.archivingfile_set.all %}
+                    <div class="folder col-md-2 file">
+                      <img src="{% static file.getIconPath  %}" alt="">
+                      <p> {{ file.label }} </p>
+                      <div style="display: none;">
+                          <p class="desc"> {{ file.description }} </p>
+                          <p class="created_at"> {{ file.created_at }} </p>
+                          <p class="urlDoc"> {{ file.document.url }} </p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Detailes</h4>
+                <p class="card-category"></p>
+            </div>
+            <div class="card-body">
+              <div class="folder" >
+                <img src=" {% static 'images/pdf.png' %} " alt="">
+                <p id="textLabel"></p>
+                <p id="textCreated_at"></p>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#open">
+                  Ouvrir
+                </button>
+                <!-- The Modal -->
+                <div class="modal" id="open">
+                  <div class="modal-dialog modal-lg">
+                    <embed class="modal-content" id="textDoc" src="" width='900' height='700' type='application/pdf'/>
+                  </div>
+                </div>
+              </div>
+              <div id="textDesc" style="text-align: justify;"> 
+                
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock main %}
+
+
+{% block js %}
+  <script>
+    $(".file").click(function(){
+      console.log("click")
+      var desc = $(this).children('div').children('.desc').text() 
+      var url  = $(this).children('div').children('.urlDoc').text()
+      var creat= $(this).children('div').children('.created_at').text()
+      var label= $(this).children('p').text()
+      $("#textDesc").text(desc)
+      $("#textLabel").text(label)
+      $("#textCreated_at").text(creat)
+      $("#textDoc").attr('src', url)
+    })
+  </script>
+{% endblock js %}
