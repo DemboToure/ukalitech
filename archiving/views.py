@@ -27,6 +27,7 @@ def showFolder(request, id):
         d = d.split("-")
         path.append({'label':d[0], 'id':d[1]})
     path.reverse()
+
     if request.method == 'POST':
         if 'addFolder' in request.POST:
             child = ArchivingFolder()
@@ -37,7 +38,8 @@ def showFolder(request, id):
             fileForm = FileForm(request.POST, request.FILES)
             if fileForm.is_valid():
                 fileForm.save()
-
+            else:
+                print(fileForm.errors) 
 
         return redirect("showFolder", id)
     

@@ -17,7 +17,8 @@ class ArchivingFolder(models.Model):
 class ArchivingFile(models.Model):
     label           = models.CharField(max_length=100)
     created_at      = models.DateTimeField(auto_now=True)
-    description     = models.CharField(max_length=200)
+    description     = models.CharField(max_length=500)
+    code            = models.CharField(max_length=10, null=True, blank=True )
     
     document        = models.FileField(upload_to='archiving/')
     

@@ -51,60 +51,14 @@
         </div>
         <div class="sidebar-wrapper">
           <ul class="nav">
-            <li class="nav-item dashboard-link">
-              <a class="nav-link app-link" href="{% url 'dashboard' %}">
-                <i class="material-icons">dashboard</i>
-                <p>Dashboard</p>
+            {% for role in request.user.role_set.all %}
+            <li class="nav-item {{role.application.name}}-link">
+              <a class="nav-link app-link" href="{% url role.application.getUrl %}">
+                <i class="material-icons">{{ role.application.icon }}</i>
+                <p>{{ role.application.name }}</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link app-link" target="_blanc" href="/admin">
-                <i class="material-icons">dashboard</i>
-                <p>Admin</p>
-              </a>
-            </li>
-            <!-- <li class="nav-item apps-link">
-              <a class="nav-link app-link" href="{% url 'applications' %}">
-                <i class="material-icons">bubble_chart</i>
-                <p>Apps</p>
-              </a>
-            </li> 
-            <li class="nav-item contact-link">
-              <a class="nav-link app-link" href="{% url 'contactHome' %}">
-                <i class="material-icons">book</i>
-                <p>Contact</p>
-              </a>
-            </li> -->
-            <li class="nav-item employee-link">
-              <a class="nav-link app-link" href="{% url 'employeeHome' %}">
-                <i class="material-icons"> supervisor_account </i>
-                <p>Employe</p>
-              </a>
-            </li>
-            <li class="nav-item gesstock-link">
-              <a class="nav-link app-link" href="{% url 'gesstockHome' %}">
-                <i class="material-icons">content_paste</i>
-                <p>Gestion stocke</p>
-              </a>
-            </li>
-            <li class="nav-item invoicing-link">
-              <a class="nav-link app-link" href="{% url 'invoicingHome' %}">
-                <i class="material-icons">content_paste</i>
-                <p>Facturation</p>
-              </a>
-            </li>
-            <li class="nav-item accounting-link">
-              <a class="nav-link app-link" href="{% url 'accountingHome' %}">
-                <i class="material-icons">account_balance</i>
-                <p>Comptailite</p>
-              </a>
-            </li>
-            <li class="nav-item archiving-link">
-              <a class="nav-link app-link" href="{% url 'archivingHome' %}">
-                <i class="material-icons">account_balance</i>
-                <p>Archivage</p>
-              </a>
-            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>

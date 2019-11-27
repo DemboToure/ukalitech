@@ -21,6 +21,7 @@ def home(request):
     return render(request, 'invoicing.html', locals())
 
 
+
 """
 # Generate PDF of invoicing client or provider
 """

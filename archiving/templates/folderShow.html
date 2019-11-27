@@ -73,6 +73,10 @@
               <input type="text" name="label" required class="form-control" required>
             </div>
             <div class="form-group">
+              <label for="">Code</label>
+              <input type="text" name="code" required class="form-control" required>
+            </div>
+            <div class="form-group">
               <label for="">description</label>
               <textarea name="description" id="" cols="30" rows="5" class="form-control" required></textarea>
             </div>
@@ -110,7 +114,7 @@
                   {% for file in folder.archivingfile_set.all %}
                     <div class="folder col-md-2 file">
                       <img src="{% static file.getIconPath  %}" alt="">
-                      <p> {{ file.label }} </p>
+                      <p> {{ file.label }}  ({{ file.code }}) </p>
                       <div style="display: none;">
                           <p class="desc"> {{ file.description }} </p>
                           <p class="created_at"> {{ file.created_at }} </p>
@@ -139,7 +143,7 @@
                 <!-- The Modal -->
                 <div class="modal" id="open">
                   <div class="modal-dialog modal-lg">
-                    <embed class="modal-content" id="textDoc" src="" width='900' height='700' type='application/pdf'/>
+                    <embed class="modal-content" id="textDoc" src="" width='900' height='600' type='application/pdf'/>
                   </div>
                 </div>
               </div>

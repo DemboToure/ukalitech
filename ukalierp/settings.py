@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'ged',
     'invoicing' ,
     'archiving' ,
+    'security' ,
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'entrepriseinfo.middleware.EntrepriseMiddleware'
+    'entrepriseinfo.middleware.EntrepriseMiddleware',
+    'security.middleware.SecurityMiddleware'
 ]
 
 ROOT_URLCONF = 'ukalierp.urls'
